@@ -1,19 +1,29 @@
 import React from "react";
-import { PROJECTS } from "./config/projects";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import InstitutionalPage from "./pages/InstitutionalPage";
 import ProjectPage from "./pages/ProjectPage";
-import Footer from "./components/Footer"; // vamos criar
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+
+const WHATSAPP_NUMBER = "5551989066283";
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export default function App() {
-  const hostname = typeof window !== "undefined" ? window.location.hostname : "";
-  const subdomain = hostname.split(".")[0];
-
-  const project = PROJECTS[subdomain as keyof typeof PROJECTS];
-
   return (
-    <>
-      {project ? <ProjectPage project={project} /> : <InstitutionalPage />}
+    <BrowserRouter>
+      <ScrollToTop />
+
+      <Navbar whatsappLink={WHATSAPP_LINK} />
+
+      <Routes>
+        <Route path="/" element={<InstitutionalPage />} />
+        <Route path="/:slug" element={<ProjectPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }

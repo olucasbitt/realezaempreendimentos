@@ -1,31 +1,22 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   MessageCircle,
   Calendar,
   CheckCircle2,
   ChevronRight,
-  Menu,
-  X,
   Instagram,
-  Facebook,
-  MapPin,
-  Phone,
   ShieldCheck,
   Maximize2,
   Home,
   Trees,
   Sparkles,
   Play,
-  Mountain,
-  Leaf,
 } from 'lucide-react';
-
+import LuxuryHighlight from "../components/LuxuryHighlight";
+ 
 import { PROJECTS } from '../config/projects';
 
 // --- Config (evita WhatsApp diferente em vários lugares) ---
@@ -54,107 +45,6 @@ type ProjectConfig = {
 const toProject = (p: unknown): ProjectConfig => (p ?? {}) as ProjectConfig;
 
 // --- Components ---
-const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: 'Início', href: '#home' },
-    { name: 'Empresa', href: '#sobre' },
-    { name: 'Projetos', href: '#projetos' },
-    { name: 'Diferenciais', href: '#diferenciais' },
-  ];
-
-  return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
-        ${
-          isScrolled
-            ? 'bg-gradient-to-b from-brand-blue/60 via-brand-blue/25 to-transparent backdrop-blur-xl py-2 border-b border-white/10'
-            : 'bg-transparent py-3'
-        }
-      `}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center min-h-[64px] md:min-h-[80px]">
-        <a href="#home" className="flex items-center">
-          <img
-            src="/img/logonv-light.png"
-            alt="Realeza Empreendimentos"
-            className={`w-auto object-contain transition-all duration-300 ${
-              isScrolled ? 'h-[60px] md:h-[72px]' : 'h-[72px] md:h-[96px]'
-            }`}
-          />
-        </a>
-
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-white/90 hover:text-brand-gold transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
-          <a
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-brand-gold text-brand-dark px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-brand-gold/90 transition-all shadow-lg shadow-brand-gold/20"
-          >
-            Fale conosco
-          </a>
-        </div>
-
-        <button className="md:hidden" onClick={() => setIsMobileMenuOpen((v) => !v)} aria-label="Abrir menu">
-          {isMobileMenuOpen ? (
-            <X className={isScrolled ? 'text-brand-dark' : 'text-white'} />
-          ) : (
-            <Menu className={isScrolled ? 'text-brand-dark' : 'text-white'} />
-          )}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white shadow-xl py-8 px-6 flex flex-col gap-6 md:hidden"
-          >
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-medium text-brand-dark hover:text-brand-gold"
-              >
-                {link.name}
-              </a>
-            ))}
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-brand-gold text-white text-center py-4 rounded-xl font-bold"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Falar no WhatsApp
-            </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-};
-
 const WhatsAppButton = () => (
   <motion.a
     href={WHATSAPP_LINK}
@@ -231,7 +121,7 @@ function ProjectSection({
   const isAurora = slug.toLowerCase() === 'aurora';
   const canUseVideo = isAurora && !!project.heroVideo; // ✅ somente Aurora usa vídeo
   const isReversed = index % 2 !== 0;
-  
+
   return (
     <div className="mb-40 pb-20 border-b border-brand-dark/5">
       <div className="flex flex-col gap-12">
@@ -259,17 +149,17 @@ function ProjectSection({
         </div>
 
         <motion.div
-		  initial={{ opacity: 0, y: 40 }}
-		  whileInView={{ opacity: 1, y: 0 }}
-		  viewport={{ once: true }}
-		  className="grid lg:grid-cols-12 gap-8 items-stretch"
-		>
-		{/* IMAGEM */}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid lg:grid-cols-12 gap-8 items-stretch"
+        >
+          {/* IMAGEM */}
           <div
-			className={`lg:col-span-7 relative group overflow-hidden rounded-3xl shadow-2xl bg-brand-dark ${
-			  isReversed ? "lg:order-2" : "lg:order-1"
-			}`}
-		  >
+            className={`lg:col-span-7 relative group overflow-hidden rounded-3xl shadow-2xl bg-brand-dark ${
+              isReversed ? 'lg:order-2' : 'lg:order-1'
+            }`}
+          >
             <div className="aspect-[16/9] relative">
               {canUseVideo ? (
                 <>
@@ -306,43 +196,34 @@ function ProjectSection({
           </div>
 
           {/* TEXTO */}
-		  <div
-			className={`lg:col-span-5 flex flex-col justify-center p-8 md:p-12 bg-brand-light rounded-3xl ${
-			  isReversed ? "lg:order-1" : "lg:order-2"
-			}`}
-		  >
-		  <h4 className="text-2xl font-serif font-bold mb-6 text-brand-dark">Destaques do Projeto</h4>
+          <div
+            className={`lg:col-span-5 flex flex-col justify-center p-8 md:p-12 bg-brand-light rounded-3xl ${
+              isReversed ? 'lg:order-1' : 'lg:order-2'
+            }`}
+          >
+            <h4 className="text-2xl font-serif font-bold mb-6 text-brand-dark">Destaques do Projeto</h4>
 
-            {/* ✅ Ajuste: usa highlights do config */}
             {Array.isArray(project.highlights) && project.highlights.length ? (
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                {project.highlights.map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-brand-dark/80 font-medium text-sm">
-                    <CheckCircle2 className="text-brand-gold" size={18} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+			  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+				{project.highlights.map((item) => (
+				  <LuxuryHighlight key={item} label={item} />
+				))}
+			  </div>
+			) : null}
 
-            {/* ✅ Ajuste: usa instagramUrl do config */}
-            {project.instagramUrl && (
-              <motion.a
-                href={project.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ x: 10 }}
-                className="flex items-center gap-2 text-brand-gold font-bold text-lg group"
-              >
-                <Instagram size={18} />
-                Mais detalhes
-                <ChevronRight className="group-hover:translate-x-1 transition-transform" />
-              </motion.a>
-            )}
+            <Link to={`/${slug}`} className="inline-block">
+			  <motion.span
+				whileHover={{ x: 10 }}
+				className="flex items-center gap-2 text-brand-gold font-bold text-lg group"
+			  >
+				<ArrowRight size={18} />
+				Mais detalhes
+				<ChevronRight className="group-hover:translate-x-1 transition-transform" />
+			  </motion.span>
+			</Link>
           </div>
         </motion.div>
 
-        {/* ✅ Ajuste: gallery do config já vem pronta ({src,alt}) */}
         {Array.isArray(project.gallery) && project.gallery.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {project.gallery.slice(0, 4).map((img, i) => (
@@ -379,12 +260,14 @@ export default function InstitutionalPage() {
   }, []);
 
   return (
-    <div className="relative overflow-x-hidden">
-      <Navbar />
+    <div className="relative overflow-x-hidden"> 
       <WhatsAppButton />
 
       {/* Hero */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 md:pt-40 pb-20">
+      <section
+        id="home"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 md:pt-40 pb-20"
+      >
         <div className="absolute inset-0 z-0">
           <img
             src="/img/aurora/casaaurora.jpeg"
@@ -560,16 +443,14 @@ export default function InstitutionalPage() {
       {/* Projetos */}
       <section id="projetos" className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <SectionTitle title="Nossos Projetos" subtitle="Explore residências projetadas para oferecer o máximo em sofisticação e bem-estar." />
+          <SectionTitle
+            title="Nossos Projetos"
+            subtitle="Explore residências projetadas para oferecer o máximo em sofisticação e bem-estar."
+          />
 
           {projectsOrdered.map(({ slug, project }, index) => (
-			  <ProjectSection
-				key={slug}
-				slug={slug}
-				project={project}
-				index={index}
-			  />
-			))}
+            <ProjectSection key={slug} slug={slug} project={project} index={index} />
+          ))}
         </div>
       </section>
 
@@ -627,7 +508,9 @@ export default function InstitutionalPage() {
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center text-white">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-            <h2 className="text-4xl md:text-7xl font-serif font-bold mb-8 leading-tight">Sua nova casa está mais próxima do que você imagina</h2>
+            <h2 className="text-4xl md:text-7xl font-serif font-bold mb-8 leading-tight">
+              Sua nova casa está mais próxima do que você imagina
+            </h2>
             <p className="text-xl md:text-2xl text-white/70 mb-12 max-w-2xl mx-auto">
               Fale agora com nossa equipe e descubra o projeto ideal para transformar sua vida.
             </p>
@@ -660,8 +543,6 @@ export default function InstitutionalPage() {
           </motion.div>
         </div>
       </section>
-
-      
     </div>
   );
 }

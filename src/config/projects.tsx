@@ -20,6 +20,12 @@ export type ProjectConfig = {
 
   // opcional: seed/placeholder (se quiser)
   // gallerySeed?: string;
+  longDescription?: string; // texto maior, “manifesto” do projeto
+  specs?: { label: string; value: string }[]; // metragens, quartos, vagas, etc
+  materials?: string[]; // acabamento / materiais
+  differentials?: { title: string; desc: string }[]; // diferenciais do projeto
+  location?: { city?: string; neighborhood?: string; mapUrl?: string };
+  floorplans?: { src: string; alt: string }[]; // plantas / esquemas
 };
 
 export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
@@ -46,6 +52,28 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
       { src: "/img/aurora/aurora3.jpeg", alt: "Detalhe Casa Aurora 3" },
       { src: "/img/aurora/aurora4.jpeg", alt: "Detalhe Casa Aurora 4" },
     ],
+	longDescription:
+	  "Uma residência autoral onde cada linha foi desenhada para elevar a rotina. Integração de ambientes, luz natural e acabamentos premium em um conjunto pensado para valorização e bem-estar.",
+	specs: [
+	  { label: "Área privativa", value: "109m²" },
+	  { label: "Dormitórios", value: "3 (1 suíte)" },
+	  { label: "Garagem", value: "2 vagas" },
+	  { label: "Estilo", value: "Contemporâneo" },
+	],
+	materials: ["Esquadrias em alumínio", "Porcelanato premium", "Iluminação planejada"],
+	differentials: [
+	  { title: "Integração inteligente", desc: "Sala e cozinha com fluidez e amplitude, ideal para receber." },
+	  { title: "Gourmet de verdade", desc: "Churrasqueira e espaço projetado para experiência completa." },
+	  { title: "Acabamento criterioso", desc: "Materiais e execução focados em elegância e durabilidade." },
+	],
+	location: {
+	  city: "Viamão - RS",
+	  neighborhood: "Residencial Vivare", // se quiser depois colocamos o bairro exato
+	  mapUrl: "https://www.google.com/maps/search/?api=1&query=Rua+Seis+45+Viamão+RS+94410-676"
+	},
+	floorplans: [
+	  { src: "/img/aurora/planta1.jpeg", alt: "Planta Casa Aurora" },
+	],
   },
 
   roma: {
@@ -71,6 +99,7 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
       { src: "/img/roma/roma3.jpeg", alt: "Detalhe Casa Roma 3" },
       { src: "/img/roma/roma4.jpeg", alt: "Detalhe Casa Roma 4" },
     ],
+	
   },
 
   montebello: {

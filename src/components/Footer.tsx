@@ -3,9 +3,9 @@ import { Instagram, Facebook, MapPin, Phone, MessageCircle } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-white py-20 border-t border-brand-blue/15">
+    <footer className="bg-white py-14 border-t border-brand-blue/15">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
+        <div className="grid md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-2">
             <img
               src="/img/logonv-dark.png"
@@ -20,13 +20,13 @@ export default function Footer() {
             <div className="flex items-center gap-4">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all"
+                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all duration-300"
               >
                 <Instagram size={20} />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all"
+                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all duration-300"
               >
                 <Facebook size={20} />
               </a>
@@ -44,7 +44,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-brand-dark/70">
                 <Phone size={20} className="text-brand-gold shrink-0" />
-                <span>(51) 999999-9999</span>
+                <span>(51) 99999-9999</span>
               </li>
               <li className="flex items-center gap-3 text-brand-dark/70">
                 <MessageCircle size={20} className="text-brand-gold shrink-0" />
@@ -66,8 +66,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-brand-dark/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-brand-dark/40">
+        <div className="pt-8 border-t border-brand-dark/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-brand-dark/40 text-center md:text-left">
             © {new Date().getFullYear()} Realeza Empreendimentos. Todos os direitos reservados.
           </p>
         </div>

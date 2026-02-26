@@ -1,7 +1,9 @@
 // src/components/ProjectBlock.tsx
 import React from "react";
 import { motion } from "motion/react";
-import { CheckCircle2, ChevronRight, Instagram, Play } from "lucide-react";
+import { Play, Instagram } from "lucide-react";
+
+import LuxuryHighlight from "./LuxuryHighlight";
 import type { ProjectConfig } from "../config/projects";
 import { GalleryGrid } from "./GalleryGrid";
 
@@ -19,13 +21,19 @@ export function ProjectBlock({
   withDivider?: boolean;
 }) {
   return (
-    <div className={`${withDivider ? "mb-40 pb-20 border-b border-brand-dark/5" : "mb-20"}`}>
+    <div
+      className={`${
+        withDivider ? "mb-40 pb-20 border-b border-brand-dark/5" : "mb-20"
+      }`}
+    >
       <div className="flex flex-col gap-12">
         <div className="flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
             {project.statusBadge?.label && (
               <span
-                className={`${badgeClasses(project.statusBadge.variant)} px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block`}
+                className={`${badgeClasses(
+                  project.statusBadge.variant
+                )} px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block`}
               >
                 {project.statusBadge.label}
               </span>
@@ -35,7 +43,9 @@ export function ProjectBlock({
             </h3>
           </div>
 
-          <p className="text-brand-dark/60 max-w-md text-lg">{project.description}</p>
+          <p className="text-brand-dark/60 max-w-md text-lg">
+            {project.description}
+          </p>
         </div>
 
         <motion.div
@@ -80,34 +90,33 @@ export function ProjectBlock({
           </div>
 
           <div className="lg:col-span-5 flex flex-col justify-center p-8 md:p-12 bg-brand-light rounded-3xl">
-            <h4 className="text-2xl font-serif font-bold mb-6 text-brand-dark">
-              Destaques do Projeto
-            </h4>
+            <div className="mb-6">
+              <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
+                Características
+              </p>
+              <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
+            </div>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
               {project.highlights.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-brand-dark/80 font-medium text-sm">
-                  <CheckCircle2 className="text-brand-gold" size={18} />
-                  {item}
-                </li>
+                <LuxuryHighlight key={item} label={item} />
               ))}
-            </ul>
+            </div>
 
             <motion.a
               href={project.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ x: 10 }}
-              className="flex items-center gap-2 text-brand-gold font-bold text-lg group"
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center justify-center gap-3 rounded-full px-7 py-3 bg-brand-dark text-white font-semibold shadow-lg shadow-black/10 hover:shadow-xl transition-all"
             >
-              <Instagram size={18} />
-              Mais detalhes
-              <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+              Ver mais
+              <Instagram size={18} className="opacity-90" />
             </motion.a>
           </div>
         </motion.div>
 
-        {/* ✅ Gallery vem 100% do config */}
         <GalleryGrid items={project.gallery} />
       </div>
     </div>
