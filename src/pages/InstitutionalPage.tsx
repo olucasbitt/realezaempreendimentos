@@ -45,23 +45,37 @@ type ProjectConfig = {
 const toProject = (p: unknown): ProjectConfig => (p ?? {}) as ProjectConfig;
 
 // --- Components ---
-const WhatsAppButton = () => (
-  <motion.a
-    href={WHATSAPP_LINK}
-    target="_blank"
-    rel="noopener noreferrer"
-    initial={{ scale: 0, opacity: 0 }}
-    animate={{ scale: 1, opacity: 1 }}
-    whileHover={{ scale: 1.1 }}
-    className="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center group"
-    aria-label="Falar no WhatsApp"
-  >
-    <MessageCircle size={32} />
-    <span className="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 whitespace-nowrap font-medium">
-      Falar conosco
-    </span>
-  </motion.a>
-);
+const WhatsAppButton = () => {
+  return (
+    <motion.a
+      href={WHATSAPP_LINK}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.2 }}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.95 }}
+      className="fixed bottom-8 right-8 z-50"
+      aria-label="Atendimento via WhatsApp"
+    >
+      <div
+        className="
+          w-12 h-12
+          rounded-full
+          bg-brand-dark/90 backdrop-blur-md
+          border border-brand-gold/30
+          flex items-center justify-center
+          shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)]
+          transition-all duration-300
+          hover:shadow-brand-gold/30
+        "
+      >
+        <MessageCircle size={16} className="text-brand-gold" />
+      </div>
+    </motion.a>
+  );
+};
 
 const SectionTitle = ({
   title,

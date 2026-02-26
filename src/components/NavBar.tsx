@@ -47,7 +47,7 @@ export default function Navbar({
     // Na home mantém âncoras
     if (isHome) return navLinks;
 
-    // Em páginas internas, não faz sentido âncora.
+    // Em páginas internas
     // Mantém só um "Voltar" e um atalho para WhatsApp.
     return [{ name: 'Voltar', href: '/' }] as NavLink[];
   }, [isHome, navLinks]);
@@ -62,13 +62,12 @@ export default function Navbar({
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
         ${
-          solid
-            ? 'bg-white/90 backdrop-blur-xl py-2 border-b border-black/5 shadow-sm'
-            : 'bg-transparent py-3'
-        }
+		solid
+		  ? 'bg-white/90 backdrop-blur-xl py-1.5 border-b border-black/5 shadow-sm'
+		  : 'bg-transparent py-1.5'        }
       `}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center min-h-[64px] md:min-h-[80px]">
+    <div className="max-w-7xl mx-auto px-6 flex justify-between items-center min-h-[52px] md:min-h-[64px]">
         {/* ✅ Home usa âncora #home | Interno usa Link para "/" */}
         {isHome ? (
           <a href="#home" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
@@ -76,7 +75,7 @@ export default function Navbar({
               src={logoToUse}
               alt={logoAlt}
               className={`w-auto object-contain transition-all duration-300 ${
-                solid ? 'h-[60px] md:h-[72px]' : 'h-[72px] md:h-[96px]'
+                solid ? 'h-[44px] md:h-[54px]' : 'h-[54px] md:h-[68px]'
               }`}
             />
           </a>
@@ -109,8 +108,8 @@ export default function Navbar({
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-brand-gold text-brand-dark px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-brand-gold/90 transition-all shadow-lg shadow-brand-gold/20"
-          >
+            className="bg-brand-gold text-brand-dark px-5 py-2 rounded-full text-sm font-semibold ..."
+			>
             Fale conosco
           </a>
         </div>
