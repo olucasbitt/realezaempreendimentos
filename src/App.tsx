@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import InstitutionalPage from "./pages/InstitutionalPage";
 import ProjectPage from "./pages/ProjectPage";
-import Navbar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -15,7 +15,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
 
-      <Navbar whatsappLink={WHATSAPP_LINK} />
+      <NavBar whatsappLink={WHATSAPP_LINK} />
 
       <Routes>
         <Route path="/" element={<InstitutionalPage />} />
