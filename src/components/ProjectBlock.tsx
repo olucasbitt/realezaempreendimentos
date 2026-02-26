@@ -20,6 +20,24 @@ export function ProjectBlock({
   project: ProjectConfig;
   withDivider?: boolean;
 }) {
+  // ✅ precisa estar dentro do componente (hooks não podem ficar fora)
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = React.useState(true); // autoPlay começa tocando
+  const [hasInteracted, setHasInteracted] = React.useState(false); // controla mute/unmute
+
+  const toggleVideo = () => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    setHasInteracted(true);
+
+    if (v.paused) {
+      v.play();
+    } else {
+      v.pause();
+    }
+  };
+
   return (
     <div
       className={`${
@@ -59,24 +77,44 @@ export function ProjectBlock({
               {project.heroVideo ? (
                 <>
                   <video
+                    ref={videoRef}
                     src={project.heroVideo}
                     className="w-full h-full object-cover"
                     autoPlay
                     loop
-                    muted
+                    muted={!hasInteracted} // ✅ começa mudo e libera som após interação
                     playsInline
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-20 h-20 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center shadow-2xl"
-                      type="button"
-                      aria-label="Play"
-                    >
-                      <Play fill="currentColor" size={32} className="ml-1" />
-                    </motion.button>
-                  </div>
+
+                  {/* ✅ área clicável para pausar/retomar */}
+                  <button
+                    type="button"
+                    aria-label="Alternar reprodução"
+                    className="absolute inset-0"
+                    onClick={toggleVideo}
+                  />
+
+                  {/* ✅ overlay só aparece quando estiver pausado */}
+                  {!isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <motion.button
+                        whileHover={{ scale: 1.08 }}
+                        whileTap={{ scale: 0.94 }}
+                        className="pointer-events-auto w-16 h-16 md:w-20 md:h-20 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center shadow-2xl"
+                        type="button"
+                        aria-label="Play"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setHasInteracted(true);
+                          videoRef.current?.play();
+                        }}
+                      >
+                        <Play fill="currentColor" size={30} className="ml-1" />
+                      </motion.button>
+                    </div>
+                  )}
                 </>
               ) : (
                 <img
@@ -97,7 +135,8 @@ export function ProjectBlock({
               <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+            {/* ✅ 2 colunas já no mobile (menos lista longa) */}
+            <div className="grid grid-cols-2 gap-3 md:gap-4 mb-10">
               {project.highlights.map((item) => (
                 <LuxuryHighlight key={item} label={item} />
               ))}

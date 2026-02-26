@@ -99,7 +99,42 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
       { src: "/img/roma/roma3.jpeg", alt: "Detalhe Casa Roma 3" },
       { src: "/img/roma/roma4.jpeg", alt: "Detalhe Casa Roma 4" },
     ],
-	
+	longDescription:
+	  "Um projeto contemporâneo em fase de execução que traduz elegância funcional. A Casa Roma foi concebida para integrar conforto, amplitude e lazer em um único conceito arquitetônico moderno e sofisticado.",
+	specs: [
+	  { label: "Área construída", value: "— m²" },
+	  { label: "Dormitórios", value: "3 (1 suíte)" },
+	  { label: "Garagem", value: "Coberta" },
+	  { label: "Lazer", value: "Piscina & Churrasqueira" },
+	],
+	materials: [
+	  "Esquadrias em alumínio preto",
+	  "Porcelanato de alto padrão",
+	  "Forro com rebaixo em gesso",
+	  "Espera para climatização"
+	],
+	differentials: [
+	  {
+		title: "Integração total",
+		desc: "Ambientes sociais conectados, proporcionando amplitude visual e fluidez entre sala, cozinha e área gourmet."
+	  },
+	  {
+		title: "Lazer completo",
+		desc: "Piscina integrada ao pátio e espaço gourmet projetado para momentos exclusivos."
+	  },
+	  {
+		title: "Arquitetura contemporânea",
+		desc: "Linhas modernas e volumetria marcante que garantem identidade e valorização patrimonial."
+	  }
+	],
+	location: {
+	  city: "Viamão - RS",
+	  neighborhood: "Condominio Green",
+	  mapUrl: "https://www.google.com/maps"
+	},
+	floorplans: [
+	  { src: "/img/roma/planta1.jpeg", alt: "Planta Casa Roma" },
+	],
   },
 
   montebello: {
@@ -125,5 +160,41 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
       { src: "img/montebello/montebello3.jpeg", alt: "Detalhe Casa Montebello 3" },
       { src: "img/montebello/montebello4.jpeg", alt: "Detalhe Casa Montebello 4" },
     ],
+	longDescription:
+	  "Um refúgio urbano projetado para quem valoriza natureza, privacidade e sofisticação. A Casa Montebello equilibra arquitetura moderna com integração ao entorno, criando uma experiência única de morar bem.",
+	specs: [
+	  { label: "Área construída", value: "— m²" },
+	  { label: "Suíte Master", value: "Sim" },
+	  { label: "Área Gourmet", value: "Integrada" },
+	  { label: "Terreno", value: "Amplo & Privativo" },
+	],
+	materials: [
+	  "Paisagismo planejado",
+	  "Iluminação arquitetônica",
+	  "Revestimentos premium",
+	  "Esquadrias amplas para luz natural"
+	],
+	differentials: [
+	  {
+		title: "Conexão com a natureza",
+		desc: "Grandes aberturas e integração visual com o jardim proporcionam luz natural abundante."
+	  },
+	  {
+		title: "Privacidade absoluta",
+		desc: "Projeto pensado para garantir tranquilidade e exclusividade."
+	  },
+	  {
+		title: "Design atemporal",
+		desc: "Arquitetura que combina elegância contemporânea com durabilidade estética."
+	  }
+	],
+	location: {
+	  city: "Viamão - RS",
+	  neighborhood: "Condominio Green",
+	  mapUrl: "https://www.google.com/maps"
+	},
+	floorplans: [
+	  { src: "/img/montebello/planta1.jpeg", alt: "Planta Casa Montebello" },
+	],
   },
 };

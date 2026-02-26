@@ -45,8 +45,8 @@ export default function LuxuryHighlight({ label }: { label: string }) {
     >
       <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-gold/25 via-brand-gold/10 to-transparent opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100" />
 
-      <div className="relative flex items-center gap-3 rounded-2xl border border-brand-dark/10 bg-white/70 backdrop-blur-md px-4 py-3 shadow-[0_14px_40px_-24px_rgba(0,0,0,0.35)]">
-        <div className="relative grid place-items-center w-11 h-11 rounded-2xl bg-gradient-to-b from-brand-gold/25 to-brand-gold/5 border border-brand-gold/20">
+      <div className="relative flex items-center gap-3 rounded-2xl border border-brand-dark/10 bg-white/70 backdrop-blur-md px-3 py-2 md:px-4 md:py-3 shadow-[0_14px_40px_-24px_rgba(0,0,0,0.35)]">
+        <div className="relative grid place-items-center w-9 h-9 md:w-11 md:h-11 rounded-2xl bg-gradient-to-b from-brand-gold/25 to-brand-gold/5 border border-brand-gold/20">
           <Icon className="text-brand-gold" size={18} strokeWidth={1.75} />
           <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" />
         </div>

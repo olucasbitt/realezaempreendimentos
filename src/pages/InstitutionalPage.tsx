@@ -1,26 +1,27 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import React, { useEffect, useMemo, useState } from 'react';
-import { motion } from 'motion/react';
+// src/pages/InstitutionalPage.tsx
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 import {
   MessageCircle,
   Calendar,
   CheckCircle2,
   ChevronRight,
-  Instagram,
   ShieldCheck,
   Maximize2,
   Home,
   Trees,
   Sparkles,
   Play,
-} from 'lucide-react';
+  ArrowRight,
+} from "lucide-react";
+
+import VideoModal from "../components/VideoModal";
 import LuxuryHighlight from "../components/LuxuryHighlight";
- 
-import { PROJECTS } from '../config/projects';
+import { PROJECTS } from "../config/projects";
 
 // --- Config (evita WhatsApp diferente em vários lugares) ---
-const WHATSAPP_NUMBER = '5551989066283';
+const WHATSAPP_NUMBER = "5551989066283";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 // ✅ Ajustado para bater com src/config/projects.tsx
@@ -29,7 +30,7 @@ type ProjectConfig = {
   name?: string;
   description?: string;
 
-  statusBadge?: { label: string; variant?: 'featured' | 'building' | 'default' };
+  statusBadge?: { label: string; variant?: "featured" | "building" | "default" };
 
   instagramUrl?: string;
 
@@ -91,7 +92,9 @@ const SectionTitle = ({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`text-3xl md:text-5xl font-serif font-bold mb-4 ${light ? 'text-white' : 'text-brand-dark'}`}
+      className={`text-3xl md:text-5xl font-serif font-bold mb-4 ${
+        light ? "text-white" : "text-brand-dark"
+      }`}
     >
       {title}
     </motion.h2>
@@ -102,7 +105,9 @@ const SectionTitle = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1 }}
-        className={`text-lg md:text-xl max-w-2xl ${light ? 'text-white/70' : 'text-brand-dark/60'}`}
+        className={`text-lg md:text-xl max-w-2xl ${
+          light ? "text-white/70" : "text-brand-dark/60"
+        }`}
       >
         {subtitle}
       </motion.p>
@@ -110,7 +115,7 @@ const SectionTitle = ({
 
     <motion.div
       initial={{ width: 0 }}
-      whileInView={{ width: '80px' }}
+      whileInView={{ width: "80px" }}
       viewport={{ once: true }}
       className="h-1 bg-brand-gold mt-6"
     />
@@ -130,9 +135,11 @@ function ProjectSection({
   slug: string;
   index: number;
 }) {
+  const [openVideo, setOpenVideo] = useState(false);
+
   const name = getProjectName(project, slug);
 
-  const isAurora = slug.toLowerCase() === 'aurora';
+  const isAurora = slug.toLowerCase() === "aurora";
   const canUseVideo = isAurora && !!project.heroVideo; // ✅ somente Aurora usa vídeo
   const isReversed = index % 2 !== 0;
 
@@ -145,21 +152,27 @@ function ProjectSection({
               <span
                 className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block
                 ${
-                  project.statusBadge.variant === 'featured'
-                    ? 'bg-brand-gold text-brand-dark shadow-sm'
-                    : project.statusBadge.variant === 'building'
-                      ? 'bg-brand-gold/10 text-brand-gold'
-                      : 'bg-brand-dark/5 text-brand-dark/40'
+                  project.statusBadge.variant === "featured"
+                    ? "bg-brand-gold text-brand-dark shadow-sm"
+                    : project.statusBadge.variant === "building"
+                    ? "bg-brand-gold/10 text-brand-gold"
+                    : "bg-brand-dark/5 text-brand-dark/40"
                 }`}
               >
                 {project.statusBadge.label}
               </span>
             ) : null}
 
-            <h3 className="text-4xl md:text-6xl font-serif font-bold text-brand-dark">{name}</h3>
+            <h3 className="text-4xl md:text-6xl font-serif font-bold text-brand-dark">
+              {name}
+            </h3>
           </div>
 
-          {project.description && <p className="text-brand-dark/60 max-w-md text-lg">{project.description}</p>}
+          {project.description && (
+            <p className="text-brand-dark/60 max-w-md text-lg">
+              {project.description}
+            </p>
+          )}
         </div>
 
         <motion.div
@@ -171,7 +184,7 @@ function ProjectSection({
           {/* IMAGEM */}
           <div
             className={`lg:col-span-7 relative group overflow-hidden rounded-3xl shadow-2xl bg-brand-dark ${
-              isReversed ? 'lg:order-2' : 'lg:order-1'
+              isReversed ? "lg:order-2" : "lg:order-1"
             }`}
           >
             <div className="aspect-[16/9] relative">
@@ -186,17 +199,45 @@ function ProjectSection({
                     muted
                     playsInline
                   />
+
+                  {/* botão premium agora funciona */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-20 h-20 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center shadow-2xl"
+                      onClick={() => setOpenVideo(true)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="
+                        w-14 h-14 md:w-16 md:h-16
+                        rounded-full
+                        backdrop-blur-md
+                        bg-white/10
+                        border border-brand-gold/40
+                        flex items-center justify-center
+                        shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)]
+                        transition-all duration-300
+                        hover:bg-brand-gold/10
+                        hover:border-brand-gold
+                      "
                       type="button"
-                      aria-label="Vídeo"
+                      aria-label="Reproduzir vídeo"
                     >
-                      <Play fill="currentColor" size={32} className="ml-1" />
+                      <Play
+                        size={20}
+                        strokeWidth={1.5}
+                        className="text-brand-gold ml-[2px]"
+                      />
                     </motion.button>
                   </div>
+
+                  {/* Modal */}
+                  {project.heroVideo && (
+                    <VideoModal
+                      open={openVideo}
+                      onClose={() => setOpenVideo(false)}
+                      src={project.heroVideo}
+                      poster={project.heroImage}
+                    />
+                  )}
                 </>
               ) : (
                 <img
@@ -212,29 +253,31 @@ function ProjectSection({
           {/* TEXTO */}
           <div
             className={`lg:col-span-5 flex flex-col justify-center p-8 md:p-12 bg-brand-light rounded-3xl ${
-              isReversed ? 'lg:order-1' : 'lg:order-2'
+              isReversed ? "lg:order-1" : "lg:order-2"
             }`}
           >
-            <h4 className="text-2xl font-serif font-bold mb-6 text-brand-dark">Destaques do Projeto</h4>
+            <h4 className="text-2xl font-serif font-bold mb-6 text-brand-dark">
+              Destaques do Projeto
+            </h4>
 
             {Array.isArray(project.highlights) && project.highlights.length ? (
-			  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-				{project.highlights.map((item) => (
-				  <LuxuryHighlight key={item} label={item} />
-				))}
-			  </div>
-			) : null}
+              <div className="grid grid-cols-2 gap-3 md:gap-4 mb-10">
+                {project.highlights.map((item) => (
+                  <LuxuryHighlight key={item} label={item} />
+                ))}
+              </div>
+            ) : null}
 
             <Link to={`/${slug}`} className="inline-block">
-			  <motion.span
-				whileHover={{ x: 10 }}
-				className="flex items-center gap-2 text-brand-gold font-bold text-lg group"
-			  >
-				<ArrowRight size={18} />
-				Mais detalhes
-				<ChevronRight className="group-hover:translate-x-1 transition-transform" />
-			  </motion.span>
-			</Link>
+              <motion.span
+                whileHover={{ x: 10 }}
+                className="flex items-center gap-2 text-brand-gold font-bold text-lg group"
+              >
+                <ArrowRight size={18} />
+                Mais detalhes
+                <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+              </motion.span>
+            </Link>
           </div>
         </motion.div>
 
@@ -267,14 +310,16 @@ function ProjectSection({
 // --- Page ---
 export default function InstitutionalPage() {
   const projectsOrdered = useMemo(() => {
-    const order = ['aurora', 'roma', 'montebello'] as const;
+    const order = ["aurora", "roma", "montebello"] as const;
     return order
       .map((k) => ({ slug: k, project: toProject((PROJECTS as any)[k]) }))
-      .filter((x) => x.project && (x.project.name || x.project.heroImage || x.project.heroVideo));
+      .filter(
+        (x) => x.project && (x.project.name || x.project.heroImage || x.project.heroVideo)
+      );
   }, []);
 
   return (
-    <div className="relative overflow-x-hidden"> 
+    <div className="relative overflow-x-hidden">
       <WhatsAppButton />
 
       {/* Hero */}
@@ -293,8 +338,14 @@ export default function InstitutionalPage() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center text-white">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-            <span className="block text-xs tracking-[0.4em] text-white/40 uppercase mb-4">Residências Exclusivas</span>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9 }}
+          >
+            <span className="block text-xs tracking-[0.4em] text-white/40 uppercase mb-4">
+              Residências Exclusivas
+            </span>
 
             <span className="inline-block px-5 py-2 bg-brand-gold/20 backdrop-blur-md border border-brand-gold/30 rounded-full text-xs font-semibold tracking-[0.25em] uppercase mb-8 text-brand-gold">
               Arquitetura & Sofisticação
@@ -303,7 +354,9 @@ export default function InstitutionalPage() {
             <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-[1.1]">
               Mais do que uma casa,
               <br />
-              <span className="italic text-brand-gold">uma experiência de viver</span>
+              <span className="italic text-brand-gold">
+                uma experiência de viver
+              </span>
             </h1>
 
             <p className="text-base sm:text-lg md:text-2xl text-white/80 max-w-3xl mx-auto mb-12 leading-relaxed">
@@ -355,7 +408,11 @@ export default function InstitutionalPage() {
       <section id="sobre" className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
               <SectionTitle
                 title="Autoridade em Construção"
                 subtitle="A Realeza Empreendimentos nasceu com o propósito de entregar mais do que casas: entregar qualidade de vida."
@@ -379,7 +436,14 @@ export default function InstitutionalPage() {
               className="relative"
             >
               <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
-                <video src="/img/diaconcreto.mp4" className="w-full h-full object-cover" autoPlay loop muted playsInline />
+                <video
+                  src="/img/diaconcreto.mp4"
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
               </div>
 
               <div className="absolute -bottom-10 -left-10 bg-white/80 backdrop-blur-md border border-white/20 shadow-xl p-8 rounded-2xl hidden md:block">
@@ -388,11 +452,15 @@ export default function InstitutionalPage() {
                     <ShieldCheck size={24} />
                   </div>
                   <div>
-                    <p className="text-sm font-bold uppercase tracking-tighter text-brand-dark/40">Garantia de Qualidade</p>
+                    <p className="text-sm font-bold uppercase tracking-tighter text-brand-dark/40">
+                      Garantia de Qualidade
+                    </p>
                     <p className="text-xl font-serif font-bold">100% Seguro</p>
                   </div>
                 </div>
-                <p className="text-sm text-brand-dark/60 max-w-[200px]">Processos rigorosos de fiscalização em cada etapa da obra.</p>
+                <p className="text-sm text-brand-dark/60 max-w-[200px]">
+                  Processos rigorosos de fiscalização em cada etapa da obra.
+                </p>
               </div>
             </motion.div>
           </div>
@@ -420,7 +488,9 @@ export default function InstitutionalPage() {
                 </div>
                 <div className="absolute -top-4 -right-4 bg-brand-gold text-brand-dark p-6 rounded-2xl shadow-xl">
                   <p className="text-4xl font-serif font-bold">10+</p>
-                  <p className="text-xs font-bold uppercase tracking-widest">Anos de Visão</p>
+                  <p className="text-xs font-bold uppercase tracking-widest">
+                    Anos de Visão
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -431,7 +501,9 @@ export default function InstitutionalPage() {
               viewport={{ once: true }}
               className="order-1 md:order-2"
             >
-              <span className="text-brand-gold font-bold uppercase tracking-widest text-sm mb-4 block">Engenheiro Civil</span>
+              <span className="text-brand-gold font-bold uppercase tracking-widest text-sm mb-4 block">
+                Engenheiro Civil
+              </span>
               <h2 className="text-4xl md:text-6xl font-serif font-bold mb-8 text-brand-dark">
                 Um profissional por trás de <span className="italic">cada detalhe</span>
               </h2>
@@ -445,7 +517,9 @@ export default function InstitutionalPage() {
                   pessoas, unindo estética, funcionalidade e valorização imobiliária.
                 </p>
                 <div className="pt-8">
-                  <p className="font-serif text-3xl font-bold text-brand-dark">Abner Severo</p>
+                  <p className="font-serif text-3xl font-bold text-brand-dark">
+                    Abner Severo
+                  </p>
                   <p className="text-brand-gold font-medium">Engenheiro Civil</p>
                 </div>
               </div>
@@ -469,7 +543,10 @@ export default function InstitutionalPage() {
       </section>
 
       {/* Diferenciais */}
-      <section id="diferenciais" className="py-24 md:py-32 bg-brand-dark text-white overflow-hidden relative">
+      <section
+        id="diferenciais"
+        className="py-24 md:py-32 bg-brand-dark text-white overflow-hidden relative"
+      >
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-green/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-green/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
 
@@ -482,12 +559,36 @@ export default function InstitutionalPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: <Maximize2 size={32} />, title: 'Arquitetura Moderna', desc: 'Projetos exclusivos com linhas contemporâneas e estética refinada.' },
-              { icon: <ShieldCheck size={32} />, title: 'Alto Padrão', desc: 'Materiais de primeira linha e acabamento rigoroso em cada detalhe.' },
-              { icon: <Trees size={32} />, title: 'Foco em Valorização', desc: 'Projetos estrategicamente pensados para garantir retorno financeiro.' },
-              { icon: <Home size={32} />, title: 'Funcionalidade', desc: 'Ambientes inteligentes que facilitam a rotina e promovem o bem-estar.' },
-              { icon: <MessageCircle size={32} />, title: 'Transparência', desc: 'Atendimento direto com os responsáveis e clareza em todas as etapas.' },
-              { icon: <CheckCircle2 size={32} />, title: 'Entrega Pontual', desc: 'Respeito rigoroso aos prazos estabelecidos em contrato.' },
+              {
+                icon: <Maximize2 size={32} />,
+                title: "Arquitetura Moderna",
+                desc: "Projetos exclusivos com linhas contemporâneas e estética refinada.",
+              },
+              {
+                icon: <ShieldCheck size={32} />,
+                title: "Alto Padrão",
+                desc: "Materiais de primeira linha e acabamento rigoroso em cada detalhe.",
+              },
+              {
+                icon: <Trees size={32} />,
+                title: "Foco em Valorização",
+                desc: "Projetos estrategicamente pensados para garantir retorno financeiro.",
+              },
+              {
+                icon: <Home size={32} />,
+                title: "Funcionalidade",
+                desc: "Ambientes inteligentes que facilitam a rotina e promovem o bem-estar.",
+              },
+              {
+                icon: <MessageCircle size={32} />,
+                title: "Transparência",
+                desc: "Atendimento direto com os responsáveis e clareza em todas as etapas.",
+              },
+              {
+                icon: <CheckCircle2 size={32} />,
+                title: "Entrega Pontual",
+                desc: "Respeito rigoroso aos prazos estabelecidos em contrato.",
+              },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
@@ -521,7 +622,11 @@ export default function InstitutionalPage() {
         </div>
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center text-white">
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl md:text-7xl font-serif font-bold mb-8 leading-tight">
               Sua nova casa está mais próxima do que você imagina
             </h2>
