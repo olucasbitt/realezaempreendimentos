@@ -1,4 +1,8 @@
 // src/config/projects.tsx
+type Highlight = {
+  label: string;
+  icon: string;
+};
 
 export type ProjectKey = "aurora" | "roma" | "montebello";
 
@@ -13,7 +17,7 @@ export type ProjectConfig = {
   heroVideo?: string;
 
   // Lista pronta para o "Destaques do Projeto"
-  highlights: string[];
+ highlights: Highlight[];
 
   //  Gallery  4 imagens
   gallery: { src: string; alt: string }[];
@@ -38,19 +42,19 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
     instagramUrl: "https://www.instagram.com/casa_auroraa",
     heroImage: "/img/aurora/casaaurora.jpeg",
     heroVideo: "/img/aurora/casaaurora.mp4",
-    highlights: [
-      "3 Quartos (1 Suíte)",
-      "2 Vagas de Garagem",
-      "109m² de Área",
-      "Área Gourmet",
-      "Design Minimalista",
-      "Acabamento Premium",
-    ],
+	highlights: [
+	  { label: "3 Quartos (1 Suíte)", icon: "bed" },
+	  { label: "2 Vagas de Garagem", icon: "garage" },
+	  { label: "109m² de Área", icon: "ruler" },
+	  { label: "Área Gourmet", icon: "kitchen" },
+	  { label: "Design Minimalista", icon: "design" },
+	  { label: "Acabamento Premium", icon: "premium" },
+	],
     gallery: [
-      { src: "/img/aurora/aurora1.jpeg", alt: "Detalhe Casa Aurora 1" },
-      { src: "/img/aurora/aurora2.jpeg", alt: "Detalhe Casa Aurora 2" },
-      { src: "/img/aurora/aurora3.jpeg", alt: "Detalhe Casa Aurora 3" },
-      { src: "/img/aurora/aurora4.jpeg", alt: "Detalhe Casa Aurora 4" },
+      { src: "/img/aurora/aurora1.jpeg", alt: "Área Gourmet" },
+      { src: "/img/aurora/aurora2.jpeg", alt: "Cozinha" },
+      { src: "/img/aurora/aurora3.jpeg", alt: "Sala e Cozinha" },
+      { src: "/img/aurora/aurora4.jpeg", alt: "Banheiro Suite" },
     ],
 	longDescription:
 	  "Uma residência autoral onde cada linha foi desenhada para elevar a rotina. Integração de ambientes, luz natural e acabamentos premium em um conjunto pensado para valorização e bem-estar.",
@@ -77,124 +81,157 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
   },
 
   roma: {
-    key: "roma",
-    name: "Casa Roma",
-    statusBadge: { label: "Em Construção", variant: "building" },
-    description:
-      "Um projeto moderno em fase de execução que une elegância, conforto e integração total.",
-    instagramUrl: "https://www.instagram.com/casa_roma_green",
-    heroImage: "/img/roma/casaroma.jpeg",
-    heroVideo: undefined,
-    highlights: [
-      "3 Quartos (1 Suíte)",
-      "Sala/Cozinha Integrada",
-      "Lareira & Churrasqueira",
-      "Garagem Coberta",
-      "Pátio com Piscina",
-      "Espaço Amplo",
-    ],
-    gallery: [
-      { src: "/img/roma/roma1.jpeg", alt: "Detalhe Casa Roma 1" },
-      { src: "/img/roma/roma2.jpeg", alt: "Detalhe Casa Roma 2" },
-      { src: "/img/roma/roma3.jpeg", alt: "Detalhe Casa Roma 3" },
-      { src: "/img/roma/roma4.jpeg", alt: "Detalhe Casa Roma 4" },
-    ],
-	longDescription:
-	  "Um projeto contemporâneo em fase de execução que traduz elegância funcional. A Casa Roma foi concebida para integrar conforto, amplitude e lazer em um único conceito arquitetônico moderno e sofisticado.",
-	specs: [
-	  { label: "Área construída", value: "— m²" },
-	  { label: "Dormitórios", value: "3 (1 suíte)" },
-	  { label: "Garagem", value: "Coberta" },
-	  { label: "Lazer", value: "Piscina & Churrasqueira" },
+  key: "roma",
+  name: "Casa Roma",
+  statusBadge: { label: "Em Construção", variant: "building" },
+
+  description:
+    "Conforto, aconchego e funcionalidade em uma residência de 123m² pensada para a nova fase da sua família.",
+
+  instagramUrl: "https://www.instagram.com/casa_roma_green",
+
+  heroImage: "/img/roma/casaroma.jpeg",
+
+  highlights: [
+	  { label: "123m² de área construída", icon: "ruler" },
+	  { label: "3 Dormitórios", icon: "bed" },
+	  { label: "Suíte com Sacada", icon: "suite" },
+	  { label: "Lareira", icon: "flame" },
+	  { label: "Espaço Kids / Home Office", icon: "laptop" },
+	  { label: "Churrasqueira", icon: "chefhat" }
 	],
-	materials: [
-	  "Esquadrias em alumínio preto",
-	  "Porcelanato de alto padrão",
-	  "Forro com rebaixo em gesso",
-	  "Espera para climatização"
-	],
-	differentials: [
-	  {
-		title: "Integração total",
-		desc: "Ambientes sociais conectados, proporcionando amplitude visual e fluidez entre sala, cozinha e área gourmet."
-	  },
-	  {
-		title: "Lazer completo",
-		desc: "Piscina integrada ao pátio e espaço gourmet projetado para momentos exclusivos."
-	  },
-	  {
-		title: "Arquitetura contemporânea",
-		desc: "Linhas modernas e volumetria marcante que garantem identidade e valorização patrimonial."
-	  }
-	],
-	location: {
-	  city: "Viamão - RS",
-	  neighborhood: "Condominio Green",
-	  mapUrl: "https://www.google.com/maps"
-	},
-	floorplans: [
-	  { src: "/img/roma/planta1.jpeg", alt: "Planta Casa Roma" },
-	],
-  },
+
+  gallery: [
+	{ src: "/img/roma/casaroma.jpeg", alt: "Fachada moderna" },
+	{ src: "/img/roma/roma10.jpeg", alt: "Ambiente moderno e integrado" },
+	{ src: "/img/roma/roma1.jpeg", alt: "Cozinha moderna integrada com ilha central e mesa de jantar" },
+	{ src: "/img/roma/roma4.jpeg", alt: "Área gourmet com churrasqueira" },
+	{ src: "/img/roma/roma2.jpeg", alt: "Ambiente integrado com cozinha, jantar e sala de estar" },
+	{ src: "/img/roma/roma3.jpeg", alt: "Ambiente integrado com cozinha, jantar e sala de estar" },	
+	{ src: "/img/roma/roma5.jpeg", alt: "Sala de jantar moderna" },
+	{ src: "/img/roma/roma6.jpeg", alt: "Sala de jantar moderna" },
+	{ src: "/img/roma/roma7.jpeg", alt: "Vista do ambiente integrado" },
+	{ src: "/img/roma/roma8.jpeg", alt: "Sala de estar aconchegante com lareira" },
+	{ src: "/img/roma/roma9.jpeg", alt: "Sala de estar aconchegante com lareira" }
+	
+,
+	
+	
+  ],
+
+  longDescription:
+    "A Casa Roma foi projetada para a família que sente que a casa atual já ficou pequena e quer dar o próximo passo. Com 123m² de área construída, o projeto combina conforto, funcionalidade e ambientes integrados. A lareira cria um clima acolhedor nos dias frios, enquanto a churrasqueira e o pátio convidam para momentos especiais com amigos e família.",
+
+  specs: [
+    { label: "Área construída", value: "123m²" },
+    { label: "Dormitórios", value: "3" },
+    { label: "Suíte", value: "1 com sacada" },
+    { label: "Garagem", value: "1 vaga coberta" },
+  ],
+
+  materials: [
+    "Esquadrias em alumínio",
+    "Porcelanato de alto padrão",
+    "Forro com rebaixo em gesso",
+    "Infraestrutura para climatização"
+  ],
+
+  differentials: [
+    {
+      title: "Espaço versátil",
+      desc: "Ambiente extra ideal para sala kids, cinema ou home office."
+    },
+    {
+      title: "Conforto no inverno",
+      desc: "Lareira integrada à sala trazendo aconchego para os dias frios."
+    },
+    {
+      title: "Integração social",
+      desc: "Sala, cozinha e churrasqueira conectadas para convivência e praticidade."
+    }
+  ],
+
+  location: {
+		  city: "Viamão - RS",
+		  neighborhood: "Green Parque Jardim",
+		  mapUrl: "https://www.google.com/maps/search/?api=1&query=Green+Parque+Jardim+Viamao+RS"
+		},
+
+  floorplans: [
+    { src: "/img/roma/planta1.jpeg", alt: "Planta Térreo" },
+	{ src: "/img/roma/planta2.jpeg", alt: "Planta Segundo Andar" },
+  ],
+},
 
   montebello: {
-    key: "montebello",
-    name: "Casa Montebello",
-    statusBadge: { label: "Natureza & Sofisticação", variant: "default" },
-    description:
-      "Um refúgio urbano de alto padrão para quem busca tranquilidade e contato com a natureza.",
-    instagramUrl: "https://www.instagram.com/casa_montebello_green",
-    heroImage: "img/montebello/casamontebello.jpeg",
-    heroVideo: undefined,
-    highlights: [
-      "Vista Panorâmica",
-      "Área Gourmet",
-      "Suíte Master",
-      "Jardim Planejado",
-      "Sustentabilidade",
-      "Privacidade",
-    ],
-    gallery: [
-      { src: "img/montebello/montebello1.jpeg", alt: "Detalhe Casa Montebello 1" },
-      { src: "img/montebello/montebello2.jpeg", alt: "Detalhe Casa Montebello 2" },
-      { src: "img/montebello/montebello3.jpeg", alt: "Detalhe Casa Montebello 3" },
-      { src: "img/montebello/montebello4.jpeg", alt: "Detalhe Casa Montebello 4" },
-    ],
-	longDescription:
-	  "Um refúgio urbano projetado para quem valoriza natureza, privacidade e sofisticação. A Casa Montebello equilibra arquitetura moderna com integração ao entorno, criando uma experiência única de morar bem.",
-	specs: [
-	  { label: "Área construída", value: "— m²" },
-	  { label: "Suíte Master", value: "Sim" },
-	  { label: "Área Gourmet", value: "Integrada" },
-	  { label: "Terreno", value: "Amplo & Privativo" },
-	],
-	materials: [
-	  "Paisagismo planejado",
-	  "Iluminação arquitetônica",
-	  "Revestimentos premium",
-	  "Esquadrias amplas para luz natural"
-	],
-	differentials: [
-	  {
-		title: "Conexão com a natureza",
-		desc: "Grandes aberturas e integração visual com o jardim proporcionam luz natural abundante."
-	  },
-	  {
-		title: "Privacidade absoluta",
-		desc: "Projeto pensado para garantir tranquilidade e exclusividade."
-	  },
-	  {
-		title: "Design atemporal",
-		desc: "Arquitetura que combina elegância contemporânea com durabilidade estética."
-	  }
-	],
-	location: {
-	  city: "Viamão - RS",
-	  neighborhood: "Condominio Green",
-	  mapUrl: "https://www.google.com/maps"
-	},
-	floorplans: [
-	  { src: "/img/montebello/planta1.jpeg", alt: "Planta Casa Montebello" },
-	],
+  key: "montebello",
+  name: "Casa Montebello",
+  statusBadge: { label: "Lançamento R$ 900.000,00", variant: "default" },
+
+  description:
+    "Uma residência contemporânea de 140m² projetada para quem valoriza conforto, lazer privativo e momentos em família.",
+
+  instagramUrl: "https://www.instagram.com/casa_montebello_green",
+  heroImage: "/img/montebello/casamontebello.jpeg",
+
+  highlights: [
+    { label: "140m² de área construída", icon: "ruler" },
+    { label: "3 Dormitórios", icon: "bed" },
+    { label: "Suíte com Sacada", icon: "suite" },
+    { label: "2 Vagas Cobertas", icon: "garage" },
+    { label: "Piscina com Cascata", icon: "pool" },
+    { label: "Espaço Gourmet", icon: "chefhat" },
+  ],
+
+  gallery: [
+    { src: "/img/montebello/montebello1.jpeg", alt: "Deck em madeira com piscina privativa" },
+    { src: "/img/montebello/montebello2.jpeg", alt: "Piscina com cascata e área externa" },
+    { src: "/img/montebello/montebello3.jpeg", alt: "Área gourmet integrada ao pátio" },
+    { src: "/img/montebello/montebello4.jpeg", alt: "Fachada moderna da Casa Montebello" },
+  ],
+
+  longDescription:
+    "A Casa Montebello foi projetada para proporcionar qualidade de vida em cada detalhe. Com 140m² de área construída, o projeto valoriza ambientes integrados, conforto e lazer privativo. A área externa conta com piscina com cascata, deck em madeira e espaço gourmet, criando o ambiente ideal para momentos de descanso ou para reunir amigos e família. Um projeto pensado para quem deseja chegar em casa e realmente aproveitar cada momento com tranquilidade, estilo e exclusividade.",
+
+  specs: [
+    { label: "Área construída", value: "140m²" },
+    { label: "Dormitórios", value: "3" },
+    { label: "Suíte", value: "1 com sacada" },
+    { label: "Garagem", value: "2 vagas cobertas" },
+  ],
+
+  materials: [
+    "Deck em madeira na área externa",
+    "Iluminação arquitetônica em LED",
+    "Revestimentos de alto padrão",
+    "Esquadrias amplas para maior iluminação natural",
+  ],
+
+  differentials: [
+    {
+      title: "Área de lazer privativa",
+      desc: "Piscina com cascata, deck em madeira e um espaço perfeito para aproveitar finais de semana com família e amigos.",
+    },
+    {
+      title: "Arquitetura contemporânea",
+      desc: "Fachada moderna com iluminação em LED e detalhes em ripado que destacam a identidade do projeto.",
+    },
+    {
+      title: "Ambientes integrados",
+      desc: "Sala, cozinha e área gourmet conectadas para proporcionar amplitude e convivência no dia a dia.",
+    },
+  ],
+
+  location: {
+    city: "Viamão - RS",
+    neighborhood: "Green Parque Jardim",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Green+Parque+Jardim+Viamao+RS",
   },
+
+  floorplans: [
+    { src: "/img/montebello/planta1.jpeg", alt: "Planta térreo Casa Montebello" },
+    { src: "/img/montebello/planta2.jpeg", alt: "Planta pavimento superior Casa Montebello" },
+  ],
+},
 };

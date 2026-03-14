@@ -1,76 +1,154 @@
 import React from "react";
-import { Instagram, Facebook, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Instagram, Facebook, MapPin, Phone, MessageCircle, Mail } from "lucide-react";
+
+const WHATSAPP = "https://wa.me/5551989066283";
+const INSTAGRAM = "https://www.instagram.com/realezaempreendimentos/";
+const FACEBOOK = "#";
 
 export default function Footer() {
   return (
-    <footer className="bg-white py-14 border-t border-brand-blue/15">
+    <footer className="bg-white py-16 border-t border-brand-blue/15">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-10 mb-12">
+
+        <div className="grid md:grid-cols-4 gap-12 mb-12">
+
+          {/* MARCA */}
           <div className="md:col-span-2">
             <img
               src="/img/logonv-dark.png"
               alt="Realeza Empreendimentos"
-              className="w-auto h-[44px] md:h-[56px] object-contain mb-6"
+              className="w-auto h-[48px] md:h-[56px] object-contain mb-6"
             />
-            <p className="text-brand-dark/60 max-w-sm mb-8 leading-relaxed">
-              Excelência em construção civil e incorporação imobiliária.
-              Transformando sonhos em endereços de alto padrão desde 2020.
+
+            <p className="text-brand-dark/60 max-w-md leading-relaxed mb-8">
+              A Realeza Empreendimentos desenvolve residências com arquitetura
+              contemporânea, alto padrão construtivo e foco em valorização
+              imobiliária. Projetos pensados para quem busca viver com conforto,
+              segurança e qualidade de vida.
             </p>
 
             <div className="flex items-center gap-4">
+
               <a
-                href="#"
+                href={INSTAGRAM}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Realeza"
                 className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all duration-300"
               >
                 <Instagram size={20} />
               </a>
+
+              
+
               <a
-                href="#"
-                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all duration-300"
+                href={WHATSAPP}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Realeza"
+                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-green-500 hover:text-white transition-all duration-300"
               >
-                <Facebook size={20} />
+                <MessageCircle size={20} />
               </a>
+
             </div>
           </div>
 
+          {/* CONTATO */}
           <div>
             <h5 className="font-bold uppercase tracking-widest text-xs text-brand-dark/40 mb-6">
               Contato
             </h5>
+
             <ul className="space-y-4">
+
               <li className="flex items-start gap-3 text-brand-dark/70">
                 <MapPin size={20} className="text-brand-gold shrink-0" />
-                <span>Residencial Vivare, Viamão - RS</span>
+                <span>
+                  Residencial Vivare<br />
+                  Viamão - RS
+                </span>
               </li>
+
               <li className="flex items-center gap-3 text-brand-dark/70">
                 <Phone size={20} className="text-brand-gold shrink-0" />
-                <span>(51) 99999-9999</span>
+                <a
+                  href="tel:+5551989066283"
+                  className="hover:text-brand-gold transition-colors"
+                >
+                  (51) 98906-6283
+                </a>
               </li>
+
               <li className="flex items-center gap-3 text-brand-dark/70">
-                <MessageCircle size={20} className="text-brand-gold shrink-0" />
-                <span>contato@realeza.com.br</span>
+                <Mail size={20} className="text-brand-gold shrink-0" />
+                <a
+                  href="mailto:contato@realeza.com.br"
+                  className="hover:text-brand-gold transition-colors"
+                >
+                  contato@realeza.com.br
+                </a>
               </li>
+
             </ul>
           </div>
 
+          {/* NAVEGAÇÃO */}
           <div>
             <h5 className="font-bold uppercase tracking-widest text-xs text-brand-dark/40 mb-6">
-              Institucional
+              Projetos
             </h5>
-            <p className="text-sm text-brand-dark/70 mb-2">
-              CNPJ: 37.187.998/0001-95
-            </p>
-            <p className="text-sm text-brand-dark/70">
-              Responsável: Abner Severo
-            </p>
+
+            <ul className="space-y-3 text-brand-dark/70">
+
+              <li>
+                <a href="/aurora" className="hover:text-brand-gold transition-colors">
+                  Casa Aurora
+                </a>
+              </li>
+
+              <li>
+                <a href="/roma" className="hover:text-brand-gold transition-colors">
+                  Casa Roma
+                </a>
+              </li>
+
+              <li>
+                <a href="/montebello" className="hover:text-brand-gold transition-colors">
+                  Casa Montebello
+                </a>
+              </li>
+
+              <li>
+                <a href="#sobre" className="hover:text-brand-gold transition-colors">
+                  Sobre a empresa
+                </a>
+              </li>
+
+            </ul>
           </div>
+
         </div>
 
+        {/* COPYRIGHT */}
         <div className="pt-8 border-t border-brand-dark/5 flex flex-col md:flex-row justify-between items-center gap-6">
+
           <p className="text-sm text-brand-dark/40 text-center md:text-left">
             © {new Date().getFullYear()} Realeza Empreendimentos. Todos os direitos reservados.
           </p>
+
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-brand-dark/60 hover:text-brand-gold transition-colors"
+          >
+            <MessageCircle size={16} />
+            Atendimento via WhatsApp
+          </a>
+
         </div>
+
       </div>
     </footer>
   );

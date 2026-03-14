@@ -3,41 +3,65 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, MapPin } from "lucide-react";
 
-import { PROJECTS } from "../config/projects";
+import { PROJECTS, type ProjectKey } from "../config/projects";
 import LuxuryHighlight from "../components/LuxuryHighlight";
 import { GalleryGrid } from "../components/GalleryGrid";
 
 export default function ProjectPage() {
-  const { slug } = useParams();
-  const project = slug ? (PROJECTS as any)[slug] : null;
+  const { slug } = useParams<{ slug: ProjectKey }>();
+  const project = slug ? PROJECTS[slug] : null;
 
   if (!project) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-20">
-        <h1 className="text-2xl font-serif font-bold text-brand-dark">Projeto não encontrado</h1>
-        <Link to="/" className="text-brand-gold font-semibold inline-block mt-6">
+        <h1 className="text-2xl font-serif font-bold text-brand-dark">
+          Projeto não encontrado
+        </h1>
+        <Link
+          to="/"
+          className="text-brand-gold font-semibold inline-block mt-6"
+        >
           Voltar para a página inicial
         </Link>
       </div>
     );
   }
 
+  const whatsappMessage = encodeURIComponent(
+    `Olá! Tenho interesse no projeto ${project.name}. Gostaria de receber mais informações e agendar uma visita.`
+  );
+
   return (
     <div className="bg-white">
-      {/* HERO do projeto (exclusivo) */}
-      <section className="relative overflow-hidden">
+      {/* HERO */}
+      <section className="relative overflow-hidden min-h-[78vh] flex items-end">
         <div className="absolute inset-0">
-          <img
-            src={project.heroImage}
-            alt={project.name}
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-white" />
+          {project.heroVideo ? (
+            <video
+              src={project.heroVideo}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              src={project.heroImage}
+              alt={project.name}
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/20" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-24">
-          <Link to="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition">
+        <div className="relative max-w-7xl mx-auto w-full px-6 pt-28 pb-20 md:pb-24">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-white transition"
+          >
             <ArrowLeft size={18} />
             Voltar
           </Link>
@@ -58,11 +82,16 @@ export default function ProjectPage() {
               {project.name}
             </h1>
 
-            <p className="mt-6 text-lg md:text-xl text-white/80 leading-relaxed">
+            {"price" in project && project.price && (
+              <p className="mt-4 text-2xl md:text-3xl font-semibold text-brand-gold">
+                {project.price}
+              </p>
+            )}
+
+            <p className="mt-6 text-lg md:text-xl text-white/85 leading-relaxed">
               {project.longDescription || project.description}
             </p>
 
-            {/* CTA Instagram */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <motion.a
                 href={project.instagramUrl}
@@ -76,7 +105,7 @@ export default function ProjectPage() {
               </motion.a>
 
               <motion.a
-                href={`https://wa.me/5551989066283`}
+                href={`https://wa.me/5551989066283?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -1 }}
@@ -93,9 +122,8 @@ export default function ProjectPage() {
       {/* CONTEÚDO */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
-          {/* Coluna esquerda: Highlights + Diferenciais */}
+          {/* Esquerda */}
           <div className="lg:col-span-7">
-            {/* Highlights premium (reaproveita) */}
             <div className="mb-12">
               <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
                 Características
@@ -103,38 +131,45 @@ export default function ProjectPage() {
               <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {project.highlights?.map((item: string) => (
-                  <LuxuryHighlight key={item} label={item} />
-                ))}
+                {project.highlights?.map((item: any) => (
+				  <LuxuryHighlight
+					key={item.label}
+					label={item.label}
+					icon={item.icon}
+				  />
+				))}
               </div>
             </div>
 
-            {/* Diferenciais (texto mais rico) */}
-            {Array.isArray(project.differentials) && project.differentials.length > 0 && (
-              <div className="mt-14">
-                <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
-                  Diferenciais
-                </p>
-                <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
+            {Array.isArray(project.differentials) &&
+              project.differentials.length > 0 && (
+                <div className="mt-14">
+                  <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
+                    Diferenciais
+                  </p>
+                  <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
 
-                <div className="mt-10 space-y-6">
-                  {project.differentials.map((d: any) => (
-                    <div
-                      key={d.title}
-                      className="rounded-3xl border border-brand-dark/10 bg-white/70 backdrop-blur-md p-8 shadow-[0_14px_40px_-30px_rgba(0,0,0,0.35)]"
-                    >
-                      <h3 className="text-xl font-serif font-bold text-brand-dark">{d.title}</h3>
-                      <p className="mt-3 text-brand-dark/65 leading-relaxed">{d.desc}</p>
-                    </div>
-                  ))}
+                  <div className="mt-10 space-y-6">
+                    {project.differentials.map((d) => (
+                      <div
+                        key={d.title}
+                        className="rounded-3xl border border-brand-dark/10 bg-white/70 backdrop-blur-md p-8 shadow-[0_14px_40px_-30px_rgba(0,0,0,0.35)]"
+                      >
+                        <h3 className="text-xl font-serif font-bold text-brand-dark">
+                          {d.title}
+                        </h3>
+                        <p className="mt-3 text-brand-dark/65 leading-relaxed">
+                          {d.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
 
-          {/* Coluna direita: Specs + Materiais + Localização */}
+          {/* Direita */}
           <div className="lg:col-span-5">
-            {/* Specs */}
             {Array.isArray(project.specs) && project.specs.length > 0 && (
               <div className="rounded-3xl border border-brand-dark/10 bg-brand-light p-8 md:p-10 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.4)]">
                 <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
@@ -143,17 +178,23 @@ export default function ProjectPage() {
                 <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
 
                 <div className="mt-8 space-y-4">
-                  {project.specs.map((s: any) => (
-                    <div key={s.label} className="flex items-center justify-between">
-                      <span className="text-sm text-brand-dark/60">{s.label}</span>
-                      <span className="text-sm font-semibold text-brand-dark">{s.value}</span>
+                  {project.specs.map((s) => (
+                    <div
+                      key={s.label}
+                      className="flex items-center justify-between gap-4"
+                    >
+                      <span className="text-sm text-brand-dark/60">
+                        {s.label}
+                      </span>
+                      <span className="text-sm font-semibold text-brand-dark text-right">
+                        {s.value}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Materiais */}
             {Array.isArray(project.materials) && project.materials.length > 0 && (
               <div className="mt-10 rounded-3xl border border-brand-dark/10 bg-white p-8 shadow-[0_14px_40px_-30px_rgba(0,0,0,0.35)]">
                 <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
@@ -162,15 +203,16 @@ export default function ProjectPage() {
                 <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
 
                 <ul className="mt-7 space-y-3 text-brand-dark/65">
-                  {project.materials.map((m: string) => (
+                  {project.materials.map((m) => (
                     <li key={m}>• {m}</li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {/* Localização */}
-            {(project.location?.city || project.location?.neighborhood || project.location?.mapUrl) && (
+            {(project.location?.city ||
+              project.location?.neighborhood ||
+              project.location?.mapUrl) && (
               <div className="mt-10 rounded-3xl border border-brand-dark/10 bg-white p-8 shadow-[0_14px_40px_-30px_rgba(0,0,0,0.35)]">
                 <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
                   Localização
@@ -181,8 +223,11 @@ export default function ProjectPage() {
                   <MapPin size={18} className="text-brand-gold mt-0.5" />
                   <div>
                     <p className="font-semibold text-brand-dark">
-                      {[project.location?.neighborhood, project.location?.city].filter(Boolean).join(" • ") || "—"}
+                      {[project.location?.neighborhood, project.location?.city]
+                        .filter(Boolean)
+                        .join(" • ") || "—"}
                     </p>
+
                     {project.location?.mapUrl && (
                       <a
                         href={project.location.mapUrl}
@@ -200,19 +245,21 @@ export default function ProjectPage() {
           </div>
         </div>
 
-        {/* Galeria completa */}
-        <div className="mt-16 md:mt-24">
-          <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
-            Galeria
-          </p>
-          <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
+        {/* Galeria */}
+        {Array.isArray(project.gallery) && project.gallery.length > 0 && (
+          <div className="mt-16 md:mt-24">
+            <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
+              Galeria
+            </p>
+            <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
 
-          <div className="mt-10">
-            <GalleryGrid items={project.gallery} />
+            <div className="mt-10">
+              <GalleryGrid items={project.gallery} />
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Plantas (se existir) */}
+        {/* Plantas */}
         {Array.isArray(project.floorplans) && project.floorplans.length > 0 && (
           <div className="mt-16 md:mt-24">
             <p className="text-xs tracking-[0.35em] uppercase text-brand-dark/40 font-semibold">
@@ -221,9 +268,17 @@ export default function ProjectPage() {
             <div className="mt-4 h-px w-24 bg-gradient-to-r from-brand-gold/70 via-brand-gold/20 to-transparent" />
 
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {project.floorplans.map((p: any) => (
-                <div key={p.src} className="rounded-3xl overflow-hidden border border-brand-dark/10 shadow-lg">
-                  <img src={p.src} alt={p.alt} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              {project.floorplans.map((p) => (
+                <div
+                  key={p.src}
+                  className="rounded-3xl overflow-hidden border border-brand-dark/10 shadow-lg"
+                >
+                  <img
+                    src={p.src}
+                    alt={p.alt}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
               ))}
             </div>

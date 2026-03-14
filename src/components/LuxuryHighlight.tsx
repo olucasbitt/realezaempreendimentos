@@ -13,29 +13,47 @@ import {
   Gem,
   Sparkles,
   Home,
-  Instagram
+  Flame,
+  Laptop,
+  Waves,
+  ChefHat,
+  Shirt,
+  Building2,
+  Sofa,
+  DoorOpen
 } from "lucide-react";
 
-function resolveHighlightIcon(label: string) {
-  const t = label.toLowerCase();
+const ICONS: Record<string, any> = {
+  bed: BedDouble,
+  suite: BedDouble,
+  garage: Car,
+  ruler: Ruler,
+  kitchen: UtensilsCrossed,
+  chefhat: ChefHat,
+  bath: Bath,
+  garden: Trees,
+  security: ShieldCheck,
+  sun: Sun,
+  location: MapPin,
+  premium: Gem,
+  design: Sparkles,
+  flame: Flame,
+  laptop: Laptop,
+  pool: Waves,
+  laundry: Shirt,
+  balcony: Building2,
+  living: Sofa,
+  patio: DoorOpen
+};
 
-  if (t.includes("quarto") || t.includes("suíte") || t.includes("suite")) return BedDouble;
-  if (t.includes("vaga") || t.includes("garagem")) return Car;
-  if (t.includes("m²") || t.includes("m2") || t.includes("área") || t.includes("area")) return Ruler;
-  if (t.includes("gourmet") || t.includes("churr") || t.includes("cozinha")) return UtensilsCrossed;
-  if (t.includes("banh") || t.includes("lavabo")) return Bath;
-  if (t.includes("jard") || t.includes("verde") || t.includes("paisag")) return Trees;
-  if (t.includes("seg") || t.includes("garantia")) return ShieldCheck;
-  if (t.includes("sol") || t.includes("ilum") || t.includes("luz")) return Sun;
-  if (t.includes("local") || t.includes("bairro") || t.includes("mapa")) return MapPin;
-  if (t.includes("premium") || t.includes("alto padrão") || t.includes("alto padrao") || t.includes("acab")) return Gem;
-  if (t.includes("design") || t.includes("minimal")) return Sparkles;
-
-  return Home;
-}
-
-export default function LuxuryHighlight({ label }: { label: string }) {
-  const Icon = resolveHighlightIcon(label);
+export default function LuxuryHighlight({
+  label,
+  icon
+}: {
+  label: string;
+  icon: string;
+}) {
+  const Icon = ICONS[icon] || Home;
 
   return (
     <motion.div

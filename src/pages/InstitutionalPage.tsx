@@ -1,12 +1,13 @@
 // src/pages/InstitutionalPage.tsx
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   MessageCircle,
   Calendar,
   CheckCircle2,
   ChevronRight,
+  ChevronLeft,
   ShieldCheck,
   Maximize2,
   Home,
@@ -14,6 +15,7 @@ import {
   Sparkles,
   Play,
   ArrowRight,
+  X,
 } from "lucide-react";
 
 import VideoModal from "../components/VideoModal";
@@ -26,24 +28,23 @@ const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 // ✅ Ajustado para bater com src/config/projects.tsx
 type ProjectConfig = {
-  key?: string; // "aurora" | "roma" | "montebello"
+  key?: string;
   name?: string;
   description?: string;
-
   statusBadge?: { label: string; variant?: "featured" | "building" | "default" };
-
   instagramUrl?: string;
-
   heroImage?: string;
-  heroVideo?: string; // somente aurora
-
-  highlights?: string[];
-
-  // ✅ no config: gallery é array de { src, alt }
+  heroVideo?: string;
+  highlights?: { label: string; icon: string }[];
   gallery?: { src: string; alt: string }[];
 };
 
 const toProject = (p: unknown): ProjectConfig => (p ?? {}) as ProjectConfig;
+
+function getSafeSrc(src?: string) {
+  if (!src) return "";
+  return src.startsWith("/") ? src : `/${src}`;
+}
 
 // --- Components ---
 const WhatsAppButton = () => {
@@ -126,6 +127,198 @@ function getProjectName(p: ProjectConfig, fallback: string) {
   return p.name || fallback;
 }
 
+function ProjectGalleryPreview({
+  project,
+  slug,
+  name,
+}: {
+  project: ProjectConfig;
+  slug: string;
+  name: string;
+}) {
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const gallery = Array.isArray(project.gallery) ? project.gallery : [];
+  const previewItems = gallery.slice(0, 4);
+  const extraCount = Math.max(gallery.length - 4, 0);
+
+  const closeViewer = () => setSelectedImage(null);
+
+  const goPrev = () => {
+    if (selectedImage === null || gallery.length <= 1) return;
+    setSelectedImage((selectedImage - 1 + gallery.length) % gallery.length);
+  };
+
+  const goNext = () => {
+    if (selectedImage === null || gallery.length <= 1) return;
+    setSelectedImage((selectedImage + 1) % gallery.length);
+  };
+
+  useEffect(() => {
+    if (selectedImage === null) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeViewer();
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [selectedImage, gallery.length]);
+
+  if (!gallery.length) return null;
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+
+    const distance = touchStartX - touchEndX;
+
+    if (distance > minSwipeDistance) {
+      goNext();
+    } else if (distance < -minSwipeDistance) {
+      goPrev();
+    }
+  };
+
+  const openAt = (index: number) => setSelectedImage(index);
+
+  return (
+    <>
+      <div className="mt-2">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {previewItems.map((img, i) => {
+            const isLastVisible = i === 3 && extraCount > 0;
+
+            return (
+              <motion.button
+                type="button"
+                key={`${slug}-preview-${i}-${img.src}`}
+                onClick={() => openAt(i)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                className="aspect-square rounded-2xl overflow-hidden shadow-lg group relative text-left"
+              >
+                <img
+                  src={getSafeSrc(img.src)}
+                  alt={img.alt || `Detalhe ${name} ${i + 1}`}
+                  className="block w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  referrerPolicy="no-referrer"
+                />
+
+                {isLastVisible && (
+                  <div className="absolute inset-0 bg-black/45 flex items-center justify-center">
+                    <div className="rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 text-white font-semibold">
+                      +{extraCount} fotos
+                    </div>
+                  </div>
+                )}
+              </motion.button>
+            );
+          })}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {selectedImage !== null && gallery[selectedImage] && (
+          <motion.div
+            className="fixed inset-0 z-[70] bg-black/95 flex items-center justify-center p-4 md:p-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeViewer}
+          >
+            <button
+              type="button"
+              onClick={closeViewer}
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-50 rounded-full bg-white/10 hover:bg-white/20 text-white p-3 transition"
+              aria-label="Fechar galeria"
+            >
+              <X size={24} />
+            </button>
+
+            {gallery.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goPrev();
+                  }}
+                  className="absolute left-3 md:left-6 z-50 rounded-full bg-white/10 hover:bg-white/20 text-white p-3 transition"
+                  aria-label="Imagem anterior"
+                >
+                  <ChevronLeft size={28} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goNext();
+                  }}
+                  className="absolute right-3 md:right-6 z-50 rounded-full bg-white/10 hover:bg-white/20 text-white p-3 transition"
+                  aria-label="Próxima imagem"
+                >
+                  <ChevronRight size={28} />
+                </button>
+              </>
+            )}
+
+            <div
+              className="relative max-w-6xl w-full flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
+              <motion.img
+                key={selectedImage}
+                src={getSafeSrc(gallery[selectedImage].src)}
+                alt={gallery[selectedImage].alt}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+                className="max-h-[84vh] max-w-full object-contain rounded-2xl shadow-2xl"
+                referrerPolicy="no-referrer"
+              />
+
+              <p className="absolute bottom-16 left-1/2 -translate-x-1/2 text-white text-sm md:text-base bg-black/45 backdrop-blur-md px-4 py-2 rounded-full max-w-[85vw] text-center">
+                {gallery[selectedImage].alt || `Detalhe ${name} ${selectedImage + 1}`}
+              </p>
+
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 text-white text-sm px-4 py-2 backdrop-blur-md">
+                {selectedImage + 1} / {gallery.length}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 function ProjectSection({
   project,
   slug,
@@ -138,9 +331,8 @@ function ProjectSection({
   const [openVideo, setOpenVideo] = useState(false);
 
   const name = getProjectName(project, slug);
-
   const isAurora = slug.toLowerCase() === "aurora";
-  const canUseVideo = isAurora && !!project.heroVideo; // ✅ somente Aurora usa vídeo
+  const canUseVideo = isAurora && !!project.heroVideo;
   const isReversed = index % 2 !== 0;
 
   return (
@@ -179,11 +371,11 @@ function ProjectSection({
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid lg:grid-cols-12 gap-8 items-stretch"
+          className="grid lg:grid-cols-12 gap-8 items-start"
         >
           {/* IMAGEM */}
           <div
-            className={`lg:col-span-7 relative group overflow-hidden rounded-3xl shadow-2xl bg-brand-dark ${
+            className={`lg:col-span-7 relative group overflow-hidden rounded-3xl shadow-2xl self-start ${
               isReversed ? "lg:order-2" : "lg:order-1"
             }`}
           >
@@ -200,7 +392,6 @@ function ProjectSection({
                     playsInline
                   />
 
-                  {/* botão premium agora funciona */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <motion.button
                       onClick={() => setOpenVideo(true)}
@@ -229,7 +420,6 @@ function ProjectSection({
                     </motion.button>
                   </div>
 
-                  {/* Modal */}
                   {project.heroVideo && (
                     <VideoModal
                       open={openVideo}
@@ -241,9 +431,9 @@ function ProjectSection({
                 </>
               ) : (
                 <img
-                  src={project.heroImage || `/img/${slug}/casa${slug}.jpeg`}
+                  src={getSafeSrc(project.heroImage || `/img/${slug}/casa${slug}.jpeg`)}
                   alt={name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="block w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />
               )}
@@ -262,8 +452,12 @@ function ProjectSection({
 
             {Array.isArray(project.highlights) && project.highlights.length ? (
               <div className="grid grid-cols-2 gap-3 md:gap-4 mb-10">
-                {project.highlights.map((item) => (
-                  <LuxuryHighlight key={item} label={item} />
+                {project.highlights.map((item, highlightIndex) => (
+                  <LuxuryHighlight
+                    key={`${item.label}-${highlightIndex}`}
+                    label={item.label}
+                    icon={item.icon}
+                  />
                 ))}
               </div>
             ) : null}
@@ -281,27 +475,7 @@ function ProjectSection({
           </div>
         </motion.div>
 
-        {Array.isArray(project.gallery) && project.gallery.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {project.gallery.slice(0, 4).map((img, i) => (
-              <motion.div
-                key={`${slug}-g-${i}-${img.src}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="aspect-square rounded-2xl overflow-hidden shadow-lg group"
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt || `Detalhe ${name} ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  referrerPolicy="no-referrer"
-                />
-              </motion.div>
-            ))}
-          </div>
-        )}
+        <ProjectGalleryPreview project={project} slug={slug} name={name} />
       </div>
     </div>
   );
@@ -311,6 +485,7 @@ function ProjectSection({
 export default function InstitutionalPage() {
   const projectsOrdered = useMemo(() => {
     const order = ["aurora", "roma", "montebello"] as const;
+
     return order
       .map((k) => ({ slug: k, project: toProject((PROJECTS as any)[k]) }))
       .filter(
@@ -354,13 +529,12 @@ export default function InstitutionalPage() {
             <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-[1.1]">
               Mais do que uma casa,
               <br />
-              <span className="italic text-brand-gold">
-                uma experiência de viver
-              </span>
+              <span className="italic text-brand-gold">uma experiência de viver</span>
             </h1>
 
             <p className="text-base sm:text-lg md:text-2xl text-white/80 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Projetos autorais que unem design contemporâneo, conforto absoluto e valorização patrimonial.
+              Projetos autorais que unem design contemporâneo, conforto absoluto e valorização
+              patrimonial.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
@@ -419,12 +593,13 @@ export default function InstitutionalPage() {
               />
               <div className="space-y-6 text-lg text-brand-dark/70 leading-relaxed">
                 <p>
-                  Fundada em 20 de maio de 2020, nossa trajetória é marcada pela busca incessante pela excelência. Cada
-                  projeto é desenvolvido com foco total em conforto, funcionalidade e valorização imobiliária.
+                  Fundada em 20 de maio de 2020, nossa trajetória é marcada pela busca incessante
+                  pela excelência. Cada projeto é desenvolvido com foco total em conforto,
+                  funcionalidade e valorização imobiliária.
                 </p>
                 <p>
-                  Garantimos um investimento seguro para o seu futuro e um lar completo para a sua família, unindo
-                  técnicas construtivas modernas a um design atemporal.
+                  Garantimos um investimento seguro para o seu futuro e um lar completo para a sua
+                  família, unindo técnicas construtivas modernas a um design atemporal.
                 </p>
               </div>
             </motion.div>
@@ -488,9 +663,7 @@ export default function InstitutionalPage() {
                 </div>
                 <div className="absolute -top-4 -right-4 bg-brand-gold text-brand-dark p-6 rounded-2xl shadow-xl">
                   <p className="text-4xl font-serif font-bold">10+</p>
-                  <p className="text-xs font-bold uppercase tracking-widest">
-                    Anos de Visão
-                  </p>
+                  <p className="text-xs font-bold uppercase tracking-widest">Anos de Visão</p>
                 </div>
               </div>
             </motion.div>
@@ -509,17 +682,16 @@ export default function InstitutionalPage() {
               </h2>
               <div className="space-y-6 text-lg text-brand-dark/70 leading-relaxed">
                 <p className="font-medium text-brand-dark">
-                  Abner Severo é o responsável pelos projetos da Realeza Empreendimentos, trazendo uma visão moderna e
-                  estratégica para cada construção.
+                  Abner Severo é o responsável pelos projetos da Realeza Empreendimentos, trazendo
+                  uma visão moderna e estratégica para cada construção.
                 </p>
                 <p>
-                  Seu compromisso vai além da obra: ele busca entregar casas que realmente façam sentido para a vida das
-                  pessoas, unindo estética, funcionalidade e valorização imobiliária.
+                  Seu compromisso vai além da obra: ele busca entregar casas que realmente façam
+                  sentido para a vida das pessoas, unindo estética, funcionalidade e valorização
+                  imobiliária.
                 </p>
                 <div className="pt-8">
-                  <p className="font-serif text-3xl font-bold text-brand-dark">
-                    Abner Severo
-                  </p>
+                  <p className="font-serif text-3xl font-bold text-brand-dark">Abner Severo</p>
                   <p className="text-brand-gold font-medium">Engenheiro Civil</p>
                 </div>
               </div>
@@ -664,4 +836,4 @@ export default function InstitutionalPage() {
       </section>
     </div>
   );
-}
+};
