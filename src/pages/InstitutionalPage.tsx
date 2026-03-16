@@ -336,86 +336,106 @@ function ProjectSection({
   const isReversed = index % 2 !== 0;
 
   return (
-    <div className="mb-40 pb-20 border-b border-brand-dark/5">
-      <div className="flex flex-col gap-12">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-6">
-          <div>
-            {project.statusBadge?.label ? (
-              <span
-                className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block
-                ${
-                  project.statusBadge.variant === "featured"
-                    ? "bg-brand-gold text-brand-dark shadow-sm"
-                    : project.statusBadge.variant === "building"
-                    ? "bg-brand-gold/10 text-brand-gold"
-                    : "bg-brand-dark/5 text-brand-dark/40"
-                }`}
-              >
-                {project.statusBadge.label}
-              </span>
-            ) : null}
+    <div className="mb-32 border-b border-brand-dark/6 pb-20 md:mb-40">
+      <div className="flex flex-col gap-8 md:gap-10">
+        <div className="max-w-4xl">
+          {project.statusBadge?.label && (
+  <span
+    className={`mb-5 inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em]
+    ${
+      project.statusBadge.variant === "featured"
+        ? "bg-brand-gold/90 text-brand-dark shadow-[0_10px_25px_-15px_rgba(0,0,0,0.35)]"
+        : "bg-brand-gold/90  text-brand-dark shadow-[0_10px_25px_-15px_rgba(0,0,0,0.35)]"
+    }`}
+  >
+    {project.statusBadge.label}
+  </span>
+)}
 
-            <h3 className="text-4xl md:text-6xl font-serif font-bold text-brand-dark">
-              {name}
-            </h3>
-          </div>
+          <h3 className="mb-6 text-4xl font-serif font-bold tracking-[-0.03em] text-brand-dark md:text-6xl">
+            {name}
+          </h3>
 
-          {project.description && (
-            <p className="text-brand-dark/60 max-w-md text-lg">
-              {project.description}
-            </p>
-          )}
+          {project.description &&
+            (slug === "roma" ? (
+              <div className="max-w-[36rem] space-y-0.5 text-[1.02rem] leading-[1.45] text-brand-dark/65 md:text-[1.12rem]">
+                <p>No dia de frio, a lareira aquece a casa.</p>
+                <p>No dia de sol, a churrasqueira reúne a família.</p>
+                <p>No dia de festa, espaço para receber os amigos.</p>
+                <p>No dia de trabalho, um lugar tranquilo para o home office.</p>
+                <p>No dia de lazer, espaço para brincar e aproveitar.</p>
+                <p>E até nos dias de chuva, sair de carro sem se molhar.</p>
+
+                <div className="pt-3">
+                  <div className="mb-3 h-px w-16 bg-gradient-to-r from-brand-gold via-brand-gold/40 to-transparent" />
+                  <p className="font-semibold tracking-[0.01em] text-brand-dark">
+                    <span className="text-brand-gold">Casa Roma.</span> Uma casa pensada para
+                    todos os momentos da vida.
+                  </p>
+                </div>
+              </div>
+            ) : slug === "montebello" ? (
+              <div className="max-w-[36rem] space-y-0.5 text-[1.02rem] leading-[1.45] text-brand-dark/65 md:text-[1.12rem]">
+                <p>Tem momentos da vida em que a família cresce…</p>
+                <p>e a casa precisa acompanhar.</p>
+                <p className="pt-1">Mais espaço, mais conforto, mais momentos juntos.</p>
+
+                <div className="pt-3">
+                  <div className="mb-3 h-px w-16 bg-gradient-to-r from-brand-gold via-brand-gold/40 to-transparent" />
+                  <p className="font-semibold tracking-[0.01em] text-brand-dark">
+                    Foi pensando nisso que a{" "}
+                    <span className="text-brand-gold">Casa Montebello</span> foi projetada e
+                    construída.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="max-w-[36rem] text-[1.02rem] leading-[1.72] text-brand-dark/65 md:text-[1.12rem]">
+                {project.description}
+              </p>
+            ))}
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 36 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid lg:grid-cols-12 gap-8 items-start"
+          transition={{ duration: 0.6 }}
+          className="grid items-start gap-8 lg:grid-cols-12"
         >
-          {/* IMAGEM */}
           <div
-            className={`lg:col-span-7 relative group overflow-hidden rounded-3xl shadow-2xl self-start ${
+            className={`group relative self-start overflow-hidden rounded-[30px] border border-black/5 shadow-[0_30px_70px_-38px_rgba(0,0,0,0.42)] lg:col-span-7 ${
               isReversed ? "lg:order-2" : "lg:order-1"
             }`}
           >
-            <div className="aspect-[16/9] relative">
+            <div className="relative aspect-[16/9]">
               {canUseVideo ? (
                 <>
                   <video
                     src={project.heroVideo}
                     poster={project.heroImage}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                     autoPlay
                     loop
                     muted
                     playsInline
                   />
 
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+
                   <div className="absolute inset-0 flex items-center justify-center">
                     <motion.button
                       onClick={() => setOpenVideo(true)}
                       whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="
-                        w-14 h-14 md:w-16 md:h-16
-                        rounded-full
-                        backdrop-blur-md
-                        bg-white/10
-                        border border-brand-gold/40
-                        flex items-center justify-center
-                        shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)]
-                        transition-all duration-300
-                        hover:bg-brand-gold/10
-                        hover:border-brand-gold
-                      "
+                      whileTap={{ scale: 0.96 }}
+                      className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-gold/40 bg-white/10 backdrop-blur-md shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-brand-gold hover:bg-brand-gold/10 md:h-16 md:w-16"
                       type="button"
                       aria-label="Reproduzir vídeo"
                     >
                       <Play
                         size={20}
                         strokeWidth={1.5}
-                        className="text-brand-gold ml-[2px]"
+                        className="ml-[2px] text-brand-gold"
                       />
                     </motion.button>
                   </div>
@@ -433,25 +453,31 @@ function ProjectSection({
                 <img
                   src={getSafeSrc(project.heroImage || `/img/${slug}/casa${slug}.jpeg`)}
                   alt={name}
-                  className="block w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="block h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   referrerPolicy="no-referrer"
                 />
               )}
             </div>
           </div>
 
-          {/* TEXTO */}
           <div
-            className={`lg:col-span-5 flex flex-col justify-center p-8 md:p-12 bg-brand-light rounded-3xl ${
+            className={`flex flex-col justify-center rounded-[28px] border border-brand-dark/8 bg-[#faf8f3] p-8 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.28)] md:p-10 lg:col-span-5 ${
               isReversed ? "lg:order-1" : "lg:order-2"
             }`}
           >
-            <h4 className="text-2xl font-serif font-bold mb-6 text-brand-dark">
+            <div className="mb-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-dark/35">
+                Diferenciais
+              </p>
+              <div className="mt-4 h-px w-16 bg-gradient-to-r from-brand-gold via-brand-gold/40 to-transparent" />
+            </div>
+
+            <h4 className="mb-6 text-[1.65rem] font-serif font-bold tracking-[-0.02em] text-brand-dark">
               Destaques do Projeto
             </h4>
 
             {Array.isArray(project.highlights) && project.highlights.length ? (
-              <div className="grid grid-cols-2 gap-3 md:gap-4 mb-10">
+              <div className="mb-10 grid grid-cols-2 gap-3 md:gap-4">
                 {project.highlights.map((item, highlightIndex) => (
                   <LuxuryHighlight
                     key={`${item.label}-${highlightIndex}`}
@@ -462,14 +488,19 @@ function ProjectSection({
               </div>
             ) : null}
 
-            <Link to={`/${slug}`} className="inline-block">
+            <Link to={`/${slug}`} className="inline-flex w-fit items-center gap-2 pt-2">
               <motion.span
-                whileHover={{ x: 10 }}
-                className="flex items-center gap-2 text-brand-gold font-bold text-lg group"
+                whileHover={{ x: 6 }}
+                className="group inline-flex items-center gap-2 text-[1rem] font-semibold text-brand-dark"
               >
-                <ArrowRight size={18} />
+                <span className="text-brand-gold">
+                  <ArrowRight size={17} />
+                </span>
                 Mais detalhes
-                <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+                <ChevronRight
+                  size={18}
+                  className="text-brand-gold transition-transform group-hover:translate-x-1"
+                />
               </motion.span>
             </Link>
           </div>
@@ -578,127 +609,212 @@ export default function InstitutionalPage() {
         </motion.div>
       </section>
 
-      {/* Sobre */}
-      <section id="sobre" className="py-24 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <SectionTitle
-                title="Autoridade em Construção"
-                subtitle="A Realeza Empreendimentos nasceu com o propósito de entregar mais do que casas: entregar qualidade de vida."
-              />
-              <div className="space-y-6 text-lg text-brand-dark/70 leading-relaxed">
-                <p>
-                  Fundada em 20 de maio de 2020, nossa trajetória é marcada pela busca incessante
-                  pela excelência. Cada projeto é desenvolvido com foco total em conforto,
-                  funcionalidade e valorização imobiliária.
-                </p>
-                <p>
-                  Garantimos um investimento seguro para o seu futuro e um lar completo para a sua
-                  família, unindo técnicas construtivas modernas a um design atemporal.
-                </p>
-              </div>
-            </motion.div>
+     {/* Sobre */}
+		<section id="sobre" className="bg-white py-24 md:py-32">
+		  <div className="mx-auto max-w-7xl px-6">
+			<div className="grid items-center gap-16 md:grid-cols-2 md:gap-24">
+			  <motion.div
+				initial={{ opacity: 0, x: -32 }}
+				whileInView={{ opacity: 1, x: 0 }}
+				viewport={{ once: true }}
+				className="max-w-[36rem]"
+			  >
+				<motion.p
+				  initial={{ opacity: 0, y: 14 }}
+				  whileInView={{ opacity: 1, y: 0 }}
+				  viewport={{ once: true }}
+				  className="mb-4 text-[11px] font-semibold uppercase tracking-[0.26em] text-brand-gold/90"
+				>
+				  Sobre a Realeza
+				</motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
-                <video
-                  src="/img/diaconcreto.mp4"
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                />
-              </div>
+				<motion.h2
+				  initial={{ opacity: 0, y: 14 }}
+				  whileInView={{ opacity: 1, y: 0 }}
+				  viewport={{ once: true }}
+				  transition={{ delay: 0.04 }}
+				  className="text-[2.15rem] font-serif font-bold leading-[1.02] tracking-[-0.03em] text-brand-dark md:text-[3.35rem]"
+				>
+				  Realeza Empreendimentos
+				</motion.h2>
 
-              <div className="absolute -bottom-10 -left-10 bg-white/80 backdrop-blur-md border border-white/20 shadow-xl p-8 rounded-2xl hidden md:block">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-brand-gold rounded-full flex items-center justify-center text-brand-dark">
-                    <ShieldCheck size={24} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold uppercase tracking-tighter text-brand-dark/40">
-                      Garantia de Qualidade
-                    </p>
-                    <p className="text-xl font-serif font-bold">100% Seguro</p>
-                  </div>
-                </div>
-                <p className="text-sm text-brand-dark/60 max-w-[200px]">
-                  Processos rigorosos de fiscalização em cada etapa da obra.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+				<motion.div
+				  initial={{ width: 0 }}
+				  whileInView={{ width: "68px" }}
+				  viewport={{ once: true }}
+				  transition={{ delay: 0.08 }}
+				  className="mt-7 h-px bg-gradient-to-r from-brand-gold via-brand-gold/35 to-transparent"
+				/>
+
+				<motion.p
+				  initial={{ opacity: 0, y: 14 }}
+				  whileInView={{ opacity: 1, y: 0 }}
+				  viewport={{ once: true }}
+				  transition={{ delay: 0.1 }}
+				  className="mt-7 text-[1rem] leading-[1.9] text-brand-dark/62 md:text-[1.06rem]"
+				>
+				  Acreditamos que uma casa é muito mais do que paredes e telhado. É o lugar onde a vida acontece: onde a família cresce, onde os sonhos ganham forma e onde os momentos mais importantes são vividos.
+				</motion.p>
+
+				<div className="mt-8 space-y-6 text-[1rem] leading-[1.9] text-brand-dark/62 md:text-[1.06rem]">
+				  <p>
+					Cada projeto é pensado com cuidado e propósito. Desenvolvemos casas que unem{" "}
+					<span className="font-medium text-brand-dark/88">
+					  conforto, funcionalidade e beleza
+					</span>
+					, criando ambientes que acolhem a rotina da família e valorizam cada momento vivido dentro do lar.
+				  </p>
+
+				  <p>
+					Utilizamos técnicas construtivas modernas, atenção aos detalhes e um design atemporal para entregar mais do que um imóvel: entregamos{" "}
+					<span className="font-medium text-brand-dark/88">
+					  segurança, qualidade e valorização para o futuro
+					</span>
+					.
+				  </p>
+
+				  <div className="pt-1">
+					<p className="text-brand-dark/62">
+					  Porque no final, construir uma casa não é apenas levantar uma obra.
+					</p>
+
+					<p className=" text-[1.05rem] leading-[1.8] text-brand-dark/82 md:text-[1.12rem]">
+					  É criar o espaço onde{" "}
+					  <span className="font-medium text-brand-gold">
+						histórias serão vividas por muitos anos.
+					  </span>
+					</p>
+				  </div>
+
+				  <div className="pt-3">
+					<div className="mb-3 h-px w-12 bg-brand-gold/35" />
+					<p className="text-[0.98rem] font-medium tracking-[0.005em] text-brand-dark/88">
+					  Realeza Empreendimentos — construindo lares para viver, crescer e prosperar.
+					</p>
+				  </div>
+				</div>
+			  </motion.div>
+
+			  <motion.div
+				initial={{ opacity: 0, x: 32 }}
+				whileInView={{ opacity: 1, x: 0 }}
+				viewport={{ once: true }}
+				className="relative"
+			  >
+				<div className="overflow-hidden rounded-[32px] border border-black/5 shadow-[0_28px_70px_-42px_rgba(0,0,0,0.32)]">
+				  <div className="relative aspect-[4/5]">
+					<video
+					  src="/img/diaconcreto.mp4"
+					  className="h-full w-full object-cover"
+					  autoPlay
+					  loop
+					  muted
+					  playsInline
+					/>
+					<div className="absolute inset-0 bg-gradient-to-t from-black/12 via-transparent to-transparent" />
+				  </div>
+				</div>
+
+				<div className="absolute -bottom-6 -left-6 hidden rounded-[22px] border border-white/40 bg-white/82 px-6 py-5 shadow-[0_22px_55px_-38px_rgba(0,0,0,0.28)] backdrop-blur-xl md:block">
+				  <div className="flex items-center gap-4">
+					<div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-gold text-brand-dark">
+					  <ShieldCheck size={20} />
+					</div>
+
+					<div>
+					  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-dark/35">
+						Garantia de Qualidade
+					  </p>
+					  <p className="mt-1 text-[1.02rem] font-semibold text-brand-dark">
+						Fiscalização em cada etapa
+					  </p>
+					</div>
+				  </div>
+				</div>
+			  </motion.div>
+			</div>
+		  </div>
+		</section>
 
       {/* Abner */}
-      <section className="py-24 md:py-32 bg-brand-light">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="order-2 md:order-1"
-            >
-              <div className="relative group">
-                <div className="aspect-square rounded-full overflow-hidden border-8 border-white shadow-2xl">
-                  <img
-                    src="/img/abner.jpeg"
-                    alt="Abner Severo"
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="absolute -top-4 -right-4 bg-brand-gold text-brand-dark p-6 rounded-2xl shadow-xl">
-                  <p className="text-4xl font-serif font-bold">10+</p>
-                  <p className="text-xs font-bold uppercase tracking-widest">Anos de Visão</p>
-                </div>
-              </div>
-            </motion.div>
+	<section className="bg-[#faf8f4] py-24 md:py-32">
+	  <div className="max-w-7xl mx-auto px-6">
+		<div className="grid items-center gap-16 md:grid-cols-2 md:gap-20">
+		  <motion.div
+			initial={{ opacity: 0, x: -30 }}
+			whileInView={{ opacity: 1, x: 0 }}
+			viewport={{ once: true }}
+			className="order-2 md:order-1"
+		  >
+			<div className="group relative mx-auto max-w-[26rem]">
+			  <div className="overflow-hidden rounded-[34px] border border-white/70 bg-white p-3 shadow-[0_30px_70px_-38px_rgba(0,0,0,0.28)]">
+				<div className="aspect-[4/5] overflow-hidden rounded-[28px]">
+				  <img
+					src="/img/abner.jpeg"
+					alt="Abner Severo"
+					className="h-full w-full object-cover grayscale-[55%] transition-all duration-700 group-hover:grayscale-0"
+					referrerPolicy="no-referrer"
+				  />
+				</div>
+			  </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="order-1 md:order-2"
-            >
-              <span className="text-brand-gold font-bold uppercase tracking-widest text-sm mb-4 block">
-                Engenheiro Civil
-              </span>
-              <h2 className="text-4xl md:text-6xl font-serif font-bold mb-8 text-brand-dark">
-                Um profissional por trás de <span className="italic">cada detalhe</span>
-              </h2>
-              <div className="space-y-6 text-lg text-brand-dark/70 leading-relaxed">
-                <p className="font-medium text-brand-dark">
-                  Abner Severo é o responsável pelos projetos da Realeza Empreendimentos, trazendo
-                  uma visão moderna e estratégica para cada construção.
-                </p>
-                <p>
-                  Seu compromisso vai além da obra: ele busca entregar casas que realmente façam
-                  sentido para a vida das pessoas, unindo estética, funcionalidade e valorização
-                  imobiliária.
-                </p>
-                <div className="pt-8">
-                  <p className="font-serif text-3xl font-bold text-brand-dark">Abner Severo</p>
-                  <p className="text-brand-gold font-medium">Engenheiro Civil</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+			  <div className="absolute -top-4 -right-4 rounded-[22px] bg-brand-gold px-6 py-5 text-brand-dark shadow-[0_20px_45px_-25px_rgba(0,0,0,0.35)]">
+				<p className="text-4xl font-serif font-bold leading-none">10+</p>
+				<p className="mt-2 text-[11px] font-bold uppercase tracking-[0.2em]">
+				  Anos de Visão
+				</p>
+			  </div>
+
+			  <div className="absolute -bottom-6 -left-6 hidden rounded-[20px] border border-brand-dark/8 bg-white/90 px-5 py-4 shadow-[0_20px_50px_-35px_rgba(0,0,0,0.3)] backdrop-blur-xl md:block">
+				<p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-dark/35">
+				  Responsável técnico
+				</p>
+				<p className="mt-1 text-sm font-semibold text-brand-dark">
+				  Engenharia com visão estratégica
+				</p>
+			  </div>
+			</div>
+		  </motion.div>
+
+		  <motion.div
+			initial={{ opacity: 0, x: 30 }}
+			whileInView={{ opacity: 1, x: 0 }}
+			viewport={{ once: true }}
+			className="order-1 md:order-2"
+		  >
+			<h2 className="text-[2.2rem] font-serif font-bold leading-tight tracking-[-0.03em] text-brand-dark md:text-6xl">
+			  Um profissional por trás de{" "}
+			  <span className="italic">cada detalhe</span>
+			</h2>
+
+			<div className="mt-7 h-px w-16 bg-gradient-to-r from-brand-gold via-brand-gold/40 to-transparent" />
+
+			<div className="mt-8 space-y-5 text-[1.02rem] leading-[1.8] text-brand-dark/66 md:text-[1.1rem]">
+			  <p className="font-medium text-brand-dark">
+				Abner Severo é o responsável pelos projetos da Realeza Empreendimentos, trazendo
+				uma visão moderna e estratégica para cada construção.
+			  </p>
+
+			  <p>
+				Seu compromisso vai além da obra: ele busca entregar casas que realmente façam
+				sentido para a vida das pessoas, unindo estética, funcionalidade e valorização
+				imobiliária.
+			  </p>
+
+			  <div className="pt-4">
+				<div className="mb-3 h-px w-16 bg-gradient-to-r from-brand-gold via-brand-gold/35 to-transparent" />
+				<p className="font-serif text-3xl font-bold tracking-[-0.02em] text-brand-dark">
+				  Abner Severo
+				</p>
+				<p className="mt-1 font-medium text-brand-gold">
+				  Engenheiro Civil
+				</p>
+			  </div>
+			</div>
+		  </motion.div>
+		</div>
+	  </div>
+	</section>
 
       {/* Projetos */}
       <section id="projetos" className="py-24 md:py-32 bg-white">

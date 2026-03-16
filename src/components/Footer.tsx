@@ -80,15 +80,8 @@ export default function Footer() {
                 </a>
               </li>
 
-              <li className="flex items-center gap-3 text-brand-dark/70">
-                <Mail size={20} className="text-brand-gold shrink-0" />
-                <a
-                  href="mailto:contato@realeza.com.br"
-                  className="hover:text-brand-gold transition-colors"
-                >
-                  contato@realeza.com.br
-                </a>
-              </li>
+              
+			  
 
             </ul>
           </div>

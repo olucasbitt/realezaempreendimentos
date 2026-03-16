@@ -83,10 +83,10 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
   roma: {
   key: "roma",
   name: "Casa Roma",
-  statusBadge: { label: "Em Construção", variant: "building" },
+  statusBadge: { label: "Em Lançamento", variant: "building" },
 
   description:
-    "Conforto, aconchego e funcionalidade em uma residência de 123m² pensada para a nova fase da sua família.",
+    "No dia de frio, a lareira aquece a casa. No dia de sol, a churrasqueira reúne a família. No dia de festa, espaço para receber os amigos. No dia de trabalho, um lugar tranquilo para o home office. No dia de lazer, espaço para brincar e aproveitar. E até nos dias de chuva, sair de carro sem se molhar. Casa Roma. Uma casa pensada para todos os momentos da vida.",
 
   instagramUrl: "https://www.instagram.com/casa_roma_green",
 
@@ -166,7 +166,7 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
   montebello: {
   key: "montebello",
   name: "Casa Montebello",
-  statusBadge: { label: "Lançamento R$ 900.000,00", variant: "default" },
+  statusBadge: { label: "Em Lançamento", variant: "default" },
 
   description:
     "Uma residência contemporânea de 140m² projetada para quem valoriza conforto, lazer privativo e momentos em família.",
