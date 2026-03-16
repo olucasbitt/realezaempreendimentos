@@ -514,6 +514,7 @@ function ProjectSection({
 
 // --- Page ---
 export default function InstitutionalPage() {
+  const [openConcreteVideo, setOpenConcreteVideo] = useState(false);
   const projectsOrdered = useMemo(() => {
     const order = ["aurora", "roma", "montebello"] as const;
 
@@ -702,7 +703,7 @@ export default function InstitutionalPage() {
 				className="relative"
 			  >
 				<div className="overflow-hidden rounded-[32px] border border-black/5 shadow-[0_28px_70px_-42px_rgba(0,0,0,0.32)]">
-				  <div className="relative aspect-[4/5]">
+				  <div className="relative aspect-[4/5] group">
 					<video
 					  src="/img/diaconcreto.mp4"
 					  className="h-full w-full object-cover"
@@ -711,9 +712,34 @@ export default function InstitutionalPage() {
 					  muted
 					  playsInline
 					/>
-					<div className="absolute inset-0 bg-gradient-to-t from-black/12 via-transparent to-transparent" />
+
+					<div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+
+					<div className="absolute inset-0 flex items-center justify-center">
+					  <motion.button
+						type="button"
+						onClick={() => setOpenConcreteVideo(true)}
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.96 }}
+						className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-gold/40 bg-white/10 backdrop-blur-md shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-brand-gold hover:bg-brand-gold/10 md:h-16 md:w-16"
+						aria-label="Reproduzir vídeo do dia do concreto"
+					  >
+						<Play
+						  size={20}
+						  strokeWidth={1.5}
+						  className="ml-[2px] text-brand-gold"
+						/>
+					  </motion.button>
+					</div>
 				  </div>
 				</div>
+
+				<VideoModal
+				  open={openConcreteVideo}
+				  onClose={() => setOpenConcreteVideo(false)}
+				  src="/img/diaconcreto.mp4"
+				  orientation="vertical"
+				/>
 
 				<div className="absolute -bottom-6 -left-6 hidden rounded-[22px] border border-white/40 bg-white/82 px-6 py-5 shadow-[0_22px_55px_-38px_rgba(0,0,0,0.28)] backdrop-blur-xl md:block">
 				  <div className="flex items-center gap-4">

@@ -1,66 +1,72 @@
 import React, { useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
+
+type VideoModalProps = {
+  open: boolean;
+  onClose: () => void;
+  src: string;
+  poster?: string;
+  orientation?: "horizontal" | "vertical";
+};
 
 export default function VideoModal({
   open,
   onClose,
   src,
   poster,
-}: {
-  open: boolean;
-  onClose: () => void;
-  src: string;
-  poster?: string;
-}) {
+  orientation = "horizontal",
+}: VideoModalProps) {
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
   }, [open, onClose]);
 
   return (
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-6"
+          className="fixed inset-0 z-[80] bg-black/95 flex items-center justify-center p-4 md:p-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          onClick={onClose}
         >
           <button
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            type="button"
             onClick={onClose}
-            aria-label="Fechar"
-          />
-
-          <motion.div
-            initial={{ scale: 0.96, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.98, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 22 }}
-            className="relative w-full max-w-4xl rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black"
+            className="absolute top-4 right-4 md:top-6 md:right-6 z-50 rounded-full bg-white/10 hover:bg-white/20 text-white p-3 transition"
+            aria-label="Fechar vídeo"
           >
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/15 backdrop-blur-md flex items-center justify-center hover:bg-white/15 transition"
-              aria-label="Fechar modal"
-            >
-              <X className="text-white" size={18} />
-            </button>
+            <X size={24} />
+          </button>
 
-            <div className="aspect-video">
-              <video
-                src={src}
-                poster={poster}
-                className="w-full h-full object-cover"
-                controls
-                autoPlay
-                playsInline
-              />
-            </div>
-          </motion.div>
+          <div
+            className={`relative w-full ${
+              orientation === "vertical" ? "max-w-md md:max-w-lg" : "max-w-5xl"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              src={src}
+              poster={poster}
+              className="max-h-[85vh] w-full h-auto object-contain rounded-2xl bg-black shadow-2xl"
+              controls
+              autoPlay
+              playsInline
+            />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
