@@ -1,4 +1,5 @@
 import React from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import InstitutionalPage from "./pages/InstitutionalPage";
@@ -24,6 +25,8 @@ export default function App() {
       </Routes>
 
       <Footer />
+
+      <Analytics />
     </BrowserRouter>
   );
 }
