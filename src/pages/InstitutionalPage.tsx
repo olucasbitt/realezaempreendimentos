@@ -466,15 +466,13 @@ function ProjectSection({
             }`}
           >
             <div className="mb-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-dark/35">
-                Diferenciais
-              </p>
+               <h4 className="mb-6 text-[1.65rem] font-serif font-bold tracking-[-0.02em] text-brand-dark">
+              Destaques do Projeto
+            </h4>	
               <div className="mt-4 h-px w-16 bg-gradient-to-r from-brand-gold via-brand-gold/40 to-transparent" />
             </div>
 
-            <h4 className="mb-6 text-[1.65rem] font-serif font-bold tracking-[-0.02em] text-brand-dark">
-              Destaques do Projeto
-            </h4>
+           
 
             {Array.isArray(project.highlights) && project.highlights.length ? (
               <div className="mb-10 grid grid-cols-2 gap-3 md:gap-4">
@@ -487,22 +485,36 @@ function ProjectSection({
                 ))}
               </div>
             ) : null}
+			<span className="block text-xs text-brand-dark/50 mb-1">
+				  Veja fotos, planta e acabamento completo
+				</span>
+				<Link to={`/${slug}`} className="inline-block mt-2">
+				  <motion.div
+					  whileHover={{ y: -3, scale: 1.02 }}
+					  whileTap={{ scale: 0.98 }}
+					  className="group inline-flex items-center gap-3 px-7 py-3 rounded-full 
+					  bg-brand-gold text-brand-dark font-semibold 
+					  shadow-[0_8px_20px_rgba(0,0,0,0.12)] 
+					  hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)]
+					  transition-all duration-300"
+					>
+					  <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white/25">
+						<ArrowRight
+						  size={16}
+						  className="transition-transform duration-300 group-hover:translate-x-1"
+						/>
+					  </span>
 
-            <Link to={`/${slug}`} className="inline-flex w-fit items-center gap-2 pt-2">
-              <motion.span
-                whileHover={{ x: 6 }}
-                className="group inline-flex items-center gap-2 text-[1rem] font-semibold text-brand-dark"
-              >
-                <span className="text-brand-gold">
-                  <ArrowRight size={17} />
-                </span>
-                Mais detalhes
-                <ChevronRight
-                  size={18}
-                  className="text-brand-gold transition-transform group-hover:translate-x-1"
-                />
-              </motion.span>
-            </Link>
+					  <span className="text-[1rem] tracking-[0.2px]">
+						Ver mais detalhes
+					  </span>
+
+					  <ChevronRight
+						size={18}
+						className="transition-transform duration-300 group-hover:translate-x-1"
+					  />
+					</motion.div>
+				</Link>
           </div>
         </motion.div>
 
@@ -516,7 +528,7 @@ function ProjectSection({
 export default function InstitutionalPage() {
   const [openConcreteVideo, setOpenConcreteVideo] = useState(false);
   const projectsOrdered = useMemo(() => {
-    const order = ["aurora", "roma", "montebello"] as const;
+    const order = ["aurora", "roma", "montebello", "isabela"] as const;
 
     return order
       .map((k) => ({ slug: k, project: toProject((PROJECTS as any)[k]) }))

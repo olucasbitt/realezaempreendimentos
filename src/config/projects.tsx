@@ -4,7 +4,7 @@ type Highlight = {
   icon: string;
 };
 
-export type ProjectKey = "aurora" | "roma" | "montebello";
+export type ProjectKey = "aurora" | "roma" | "montebello" | "isabela";
 
 export type ProjectConfig = {
   key: ProjectKey;
@@ -179,8 +179,7 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
     { label: "3 Dormitórios", icon: "bed" },
     { label: "Suíte com Sacada", icon: "suite" },
     { label: "2 Vagas Cobertas", icon: "garage" },
-    { label: "Piscina com Cascata", icon: "pool" },
-    { label: "Espaço Gourmet", icon: "chefhat" },
+        { label: "Espaço Gourmet", icon: "chefhat" },
   ],
 
   gallery: [
@@ -191,7 +190,7 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
   ],
 
   longDescription:
-    "A Casa Montebello foi projetada para proporcionar qualidade de vida em cada detalhe. Com 140m² de área construída, o projeto valoriza ambientes integrados, conforto e lazer privativo. A área externa conta com piscina com cascata, deck em madeira e espaço gourmet, criando o ambiente ideal para momentos de descanso ou para reunir amigos e família. Um projeto pensado para quem deseja chegar em casa e realmente aproveitar cada momento com tranquilidade, estilo e exclusividade.",
+    "A Casa Montebello foi projetada para proporcionar qualidade de vida em cada detalhe. Com 140m² de área construída, o projeto valoriza ambientes integrados, conforto e lazer privativo. A área externa conta com amplo patio e espaço gourmet, criando o ambiente ideal para momentos de descanso ou para reunir amigos e família. Um projeto pensado para quem deseja chegar em casa e realmente aproveitar cada momento com tranquilidade, estilo e exclusividade.",
 
   specs: [
     { label: "Área construída", value: "140m²" },
@@ -210,11 +209,11 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
   differentials: [
     {
       title: "Área de lazer privativa",
-      desc: "Piscina com cascata, deck em madeira e um espaço perfeito para aproveitar finais de semana com família e amigos.",
+      desc: "Com amplo pátio é um espaço perfeito para aproveitar finais de semana com família e amigos.",
     },
     {
       title: "Arquitetura contemporânea",
-      desc: "Fachada moderna com iluminação em LED e detalhes em ripado que destacam a identidade do projeto.",
+      desc: "Fachada moderna com iluminação em LED e detalhes em Brise que destacam a identidade do projeto.",
     },
     {
       title: "Ambientes integrados",
@@ -234,4 +233,73 @@ export const PROJECTS: Record<ProjectKey, ProjectConfig> = {
     { src: "/img/montebello/planta2.jpeg", alt: "Planta pavimento superior Casa Montebello" },
   ],
 },
+	isabela: {
+  key: "isabela",
+  name: "Casa Isabela",
+  statusBadge: { label: "Em Lançamento", variant: "default" },
+
+  description:
+    "Uma residência de 116m² projetada para unir conforto, funcionalidade e momentos especiais em família, com ambientes integrados e excelente área social.",
+
+  instagramUrl: "https://www.instagram.com/",
+  heroImage: "/img/isabela/casaisabela.jpeg",
+
+  highlights: [
+    { label: "116m² de área construída", icon: "ruler" },
+    { label: "3 Quartos (1 suíte)", icon: "bed" },
+    { label: "Garagem coberta", icon: "garage" },
+    { label: "Sala e cozinha integradas", icon: "kitchen" },
+    { label: "Lareira", icon: "flame" },
+    { label: "Área gourmet com churrasqueira", icon: "chefhat" },
+  ],
+
+  gallery: [
+  //  { src: "/img/isabela/isabela1.jpeg", alt: "Fachada da Casa Isabela" },
+    //{ src: "/img/isabela/isabela2.jpeg", alt: "Sala e cozinha integradas" },
+    //{ src: "/img/isabela/isabela3.jpeg", alt: "Área gourmet com churrasqueira" },
+    //{ src: "/img/isabela/isabela4.jpeg", alt: "Pátio amplo da Casa Isabela" },
+  ],
+
+  longDescription:
+    "A Casa Isabela foi pensada para quem busca viver com conforto e praticidade sem abrir mão de um projeto moderno e acolhedor. Com 116m² de área construída, integra sala e cozinha para ampliar a convivência no dia a dia, conta com lareira para os dias frios, churrasqueira e área gourmet para receber bem, além de lavanderia independente, pátio amplo e garagem coberta. Um projeto completo no Residencial Vivare, ideal para famílias que valorizam qualidade de vida e bons momentos em casa.",
+
+  specs: [
+    { label: "Área construída", value: "116m²" },
+    { label: "Dormitórios", value: "3" },
+    { label: "Suíte", value: "1" },
+    { label: "Garagem", value: "Coberta" },
+  ],
+
+  materials: [
+    "Esquadrias em alumínio",
+    "Porcelanato de alto padrão",
+    "Acabamentos modernos",
+    "Ambientes integrados com excelente iluminação natural",
+  ],
+
+  differentials: [
+    {
+      title: "Integração e aconchego",
+      desc: "Sala e cozinha integradas com lareira, criando um ambiente perfeito para o convívio em família.",
+    },
+    {
+      title: "Área social completa",
+      desc: "Churrasqueira e área gourmet planejadas para aproveitar momentos especiais com amigos e familiares.",
+    },
+    {
+      title: "Mais conforto no dia a dia",
+      desc: "Lavanderia independente, pátio amplo e garagem coberta trazem praticidade e funcionalidade para a rotina.",
+    },
+  ],
+
+  location: {
+    city: "Viamão - RS",
+    neighborhood: "Residencial Vivare",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Residencial+Vivare+Viamao+RS",
+  },
+
+  floorplans: [
+  //  { src: "/img/isabela/planta1.jpeg", alt: "Planta Casa Isabela" },
+  ],
+}
 };
