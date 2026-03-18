@@ -46,7 +46,8 @@ function getSafeSrc(src?: string) {
   return src.startsWith("/") ? src : `/${src}`;
 }
 
-// --- Components ---
+// --- Components ---  
+
 const WhatsAppButton = () => {
   return (
     <motion.a
@@ -56,28 +57,44 @@ const WhatsAppButton = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1.2 }}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.95 }}
-      className="fixed bottom-8 right-8 z-50"
+      className="fixed bottom-8 right-8 z-50 group"
       aria-label="Atendimento via WhatsApp"
     >
-      <div
+      <motion.div
+        whileHover={{ width: "auto" }}
         className="
+          flex items-center gap-2
           w-12 h-12
+          px-3
           rounded-full
-          bg-brand-dark/90 backdrop-blur-md
-          border border-brand-gold/30
-          flex items-center justify-center
-          shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)]
+          bg-gradient-to-r from-green-500 to-green-600
+          text-white
+          shadow-[0_10px_30px_-10px_rgba(34,197,94,0.5)]
+          overflow-hidden
           transition-all duration-300
-          hover:shadow-brand-gold/30
+          group-hover:pr-4
         "
       >
-        <MessageCircle size={16} className="text-brand-gold" />
-      </div>
+        <MessageCircle size={18} className="shrink-0" />
+
+        <span
+          className="
+            whitespace-nowrap
+            opacity-0
+            max-w-0
+            group-hover:opacity-100
+            group-hover:max-w-xs
+            transition-all duration-300
+            text-sm font-medium
+          "
+        >
+          Fale agora no WhatsApp
+        </span>
+      </motion.div>
     </motion.a>
   );
 };
+ 
 
 const SectionTitle = ({
   title,

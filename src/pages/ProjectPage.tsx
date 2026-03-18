@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { ArrowLeft, MapPin, MessageCircle } from "lucide-react";
 
 import { PROJECTS, type ProjectKey } from "../config/projects";
 import LuxuryHighlight from "../components/LuxuryHighlight";
@@ -132,12 +132,12 @@ export default function ProjectPage() {
 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {project.highlights?.map((item: any) => (
-				  <LuxuryHighlight
-					key={item.label}
-					label={item.label}
-					icon={item.icon}
-				  />
-				))}
+                  <LuxuryHighlight
+                    key={item.label}
+                    label={item.label}
+                    icon={item.icon}
+                  />
+                ))}
               </div>
             </div>
 
@@ -285,6 +285,49 @@ export default function ProjectPage() {
           </div>
         )}
       </section>
+
+      <motion.a
+  href={`https://wa.me/5551989066283?text=${whatsappMessage}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 1.2 }}
+  className="fixed bottom-8 right-8 z-50 group"
+  aria-label="Atendimento via WhatsApp"
+>
+  <div
+    className="
+      flex items-center justify-center md:justify-start gap-2
+      h-12 w-12 group-hover:w-[220px]
+      px-3
+      rounded-full
+      bg-gradient-to-r from-green-500 to-green-600
+      text-white
+      shadow-[0_10px_30px_-10px_rgba(34,197,94,0.5)]
+      overflow-hidden
+      transition-all duration-300
+      hover:scale-105
+    "
+  >
+    <MessageCircle size={18} className="shrink-0 min-w-[18px]" />
+
+    <span
+      className="
+        whitespace-nowrap
+        opacity-0
+        max-w-0
+        overflow-hidden
+        group-hover:opacity-100
+        group-hover:max-w-[160px]
+        transition-all duration-300
+        text-sm font-medium
+      "
+    >
+      Fale agora no WhatsApp
+    </span>
+  </div>
+</motion.a>
     </div>
   );
 }

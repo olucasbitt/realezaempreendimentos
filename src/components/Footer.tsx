@@ -2,7 +2,7 @@ import React from "react";
 import { Instagram, Facebook, MapPin, Phone, MessageCircle, Mail } from "lucide-react";
 
 const WHATSAPP = "https://wa.me/5551989066283";
-const INSTAGRAM = "https://www.instagram.com/realezaempreendimentos/";
+const INSTAGRAM = "https://www.instagram.com/realeza.empreendimentos/";
 const FACEBOOK = "#";
 
 export default function Footer() {
@@ -29,24 +29,27 @@ export default function Footer() {
 
             <div className="flex items-center gap-4">
 
+              {/* Instagram */}
               <a
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram Realeza"
-                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-brand-blue hover:text-white transition-all duration-300"
+                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark 
+                           hover:bg-gradient-to-br hover:from-pink-500 hover:via-red-500 hover:to-yellow-500 
+                           hover:text-white hover:scale-110 transition-all duration-300"
               >
                 <Instagram size={20} />
               </a>
 
-              
-
+              {/* WhatsApp */}
               <a
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp Realeza"
-                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark hover:bg-green-500 hover:text-white transition-all duration-300"
+                className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center text-brand-dark 
+                           hover:bg-green-500 hover:text-white hover:scale-110 transition-all duration-300"
               >
                 <MessageCircle size={20} />
               </a>
@@ -80,9 +83,6 @@ export default function Footer() {
                 </a>
               </li>
 
-              
-			  
-
             </ul>
           </div>
 
@@ -111,11 +111,13 @@ export default function Footer() {
                   Casa Montebello
                 </a>
               </li>
-			<li>
+
+              <li>
                 <a href="/isabela" className="hover:text-brand-gold transition-colors">
                   Casa Isabela
                 </a>
               </li>
+
               <li>
                 <a href="#sobre" className="hover:text-brand-gold transition-colors">
                   Sobre a empresa
@@ -127,22 +129,14 @@ export default function Footer() {
 
         </div>
 
-        {/* COPYRIGHT */}
+        {/* COPYRIGHT + CTA */}
         <div className="pt-8 border-t border-brand-dark/5 flex flex-col md:flex-row justify-between items-center gap-6">
 
           <p className="text-sm text-brand-dark/40 text-center md:text-left">
             © {new Date().getFullYear()} Realeza Empreendimentos. Todos os direitos reservados.
           </p>
 
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-brand-dark/60 hover:text-brand-gold transition-colors"
-          >
-            <MessageCircle size={16} />
-            Atendimento via WhatsApp
-          </a>
+         
 
         </div>
 
