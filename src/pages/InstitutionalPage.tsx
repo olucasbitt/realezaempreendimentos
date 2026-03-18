@@ -337,7 +337,7 @@ function ProjectSection({
 
   return (
     <div className="mb-32 border-b border-brand-dark/6 pb-20 md:mb-40">
-      <div className="flex flex-col gap-8 md:gap-10">
+      <div className="flex flex-col gap-6 md:gap-8">
         <div className="max-w-4xl">
           {project.statusBadge?.label && (
   <span
@@ -870,70 +870,109 @@ export default function InstitutionalPage() {
 
       {/* Diferenciais */}
       <section
-        id="diferenciais"
-        className="py-24 md:py-32 bg-brand-dark text-white overflow-hidden relative"
-      >
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-green/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-green/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
+		  id="diferenciais"
+		  className="py-24 md:py-32 bg-brand-dark text-white overflow-hidden relative"
+		>
+		  {/* efeitos de fundo */}
+		  <div className="absolute top-0 right-0 w-96 h-96 bg-brand-green/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+		  <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-green/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <SectionTitle
-            title="Por que escolher a Realeza?"
-            subtitle="Nosso compromisso é com a entrega impecável e a satisfação total de quem confia o seu sonho em nossas mãos."
-            light
-          />
+		  <div className="max-w-7xl mx-auto px-6 relative z-10">
+			<SectionTitle
+			  title="Por que construir com a Realeza"
+			  subtitle="Arquitetura autoral, acabamento de alto padrão e um processo conduzido com transparência do início à entrega."
+			  light
+			/>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Maximize2 size={32} />,
-                title: "Arquitetura Moderna",
-                desc: "Projetos exclusivos com linhas contemporâneas e estética refinada.",
-              },
-              {
-                icon: <ShieldCheck size={32} />,
-                title: "Alto Padrão",
-                desc: "Materiais de primeira linha e acabamento rigoroso em cada detalhe.",
-              },
-              {
-                icon: <Trees size={32} />,
-                title: "Foco em Valorização",
-                desc: "Projetos estrategicamente pensados para garantir retorno financeiro.",
-              },
-              {
-                icon: <Home size={32} />,
-                title: "Funcionalidade",
-                desc: "Ambientes inteligentes que facilitam a rotina e promovem o bem-estar.",
-              },
-              {
-                icon: <MessageCircle size={32} />,
-                title: "Transparência",
-                desc: "Atendimento direto com os responsáveis e clareza em todas as etapas.",
-              },
-              {
-                icon: <CheckCircle2 size={32} />,
-                title: "Entrega Pontual",
-                desc: "Respeito rigoroso aos prazos estabelecidos em contrato.",
-              },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
-              >
-                <div className="w-16 h-16 bg-brand-gold/20 rounded-2xl flex items-center justify-center text-brand-gold mb-6 group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </div>
-                <h4 className="text-xl font-serif font-bold mb-4">{item.title}</h4>
-                <p className="text-white/60 leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+			  {[
+				{
+				  icon: <ShieldCheck size={32} />,
+				  title: "Alto Padrão",
+				  desc: "Materiais selecionados e acabamento criterioso para entregar qualidade em cada detalhe.",
+				},
+				{
+				  icon: <Maximize2 size={32} />,
+				  title: "Arquitetura Moderna",
+				  desc: "Projetos com estética contemporânea, linhas elegantes e identidade marcante.",
+				},
+				{
+				  icon: <Home size={32} />,
+				  title: "Funcionalidade",
+				  desc: "Ambientes inteligentes e bem resolvidos para facilitar a rotina e melhorar a experiência de morar.",
+				},
+				{
+				  icon: <MessageCircle size={32} />,
+				  title: "Transparência",
+				  desc: "Comunicação clara, atendimento próximo e segurança em todas as etapas do processo.",
+				},
+				{
+				  icon: <CheckCircle2 size={32} />,
+				  title: "Entrega Pontual",
+				  desc: "Compromisso com prazos e execução responsável, com foco na confiança do cliente.",
+				},
+				{
+				  icon: <Trees size={32} />,
+				  title: "Valorização do Imóvel",
+				  desc: "Projetos pensados para unir conforto, estética e potencial de valorização ao longo do tempo.",
+				},
+			  ].map((item, idx) => (
+				<motion.div
+				  key={idx}
+				  initial={{ opacity: 0, y: 20 }}
+				  whileInView={{ opacity: 1, y: 0 }}
+				  viewport={{ once: true }}
+				  transition={{ delay: idx * 0.08 }}
+				  className="p-8 rounded-3xl bg-white/5 border border-white/10 
+				  hover:bg-white/10 hover:border-brand-gold/30 hover:-translate-y-1 
+				  transition-all duration-300 group"
+				>
+				  <div
+					className="w-16 h-16 bg-brand-gold/15 border border-brand-gold/25 
+					rounded-2xl flex items-center justify-center text-brand-gold mb-6 
+					group-hover:scale-110 group-hover:bg-brand-gold/20 
+					transition-all duration-300"
+				  >
+					{item.icon}
+				  </div>
+
+				  <h4 className="text-xl font-serif font-bold mb-4">
+					{item.title}
+				  </h4>
+
+				  <p className="text-white/70 leading-relaxed">
+					{item.desc}
+				  </p>
+				</motion.div>
+			  ))}
+			</div>
+
+			{/* CTA */}
+			<div className="mt-16 flex flex-col items-center gap-4">
+			  <p className="text-white/60 text-sm">
+				Fale diretamente com quem constrói seu projeto
+			  </p>
+
+			  <a
+				href={WHATSAPP_LINK}
+				target="_blank"
+				rel="noopener noreferrer"
+				className="group inline-flex items-center gap-3 px-7 py-3 rounded-full 
+				bg-brand-gold text-brand-dark font-semibold 
+				shadow-[0_8px_20px_rgba(0,0,0,0.12)] 
+				hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)]
+				hover:scale-[1.02]
+				transition-all duration-300"
+			  >
+				Falar com a Realeza
+
+				<span className="transition-transform duration-300 group-hover:translate-x-1">
+				  →
+				</span>
+			  </a>
+			</div>
+		  </div>
+		</section>
 
       {/* CTA */}
       <section className="py-24 md:py-40 relative overflow-hidden">

@@ -111,7 +111,11 @@ export default function Footer() {
                   Casa Montebello
                 </a>
               </li>
-
+			<li>
+                <a href="/isabela" className="hover:text-brand-gold transition-colors">
+                  Casa Isabela
+                </a>
+              </li>
               <li>
                 <a href="#sobre" className="hover:text-brand-gold transition-colors">
                   Sobre a empresa
